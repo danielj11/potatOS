@@ -1,0 +1,100 @@
+# depslib dependency file v1.0
+1409234608 source:c:\users\jacob\documents\c++ prog\myos\date.cpp
+	"date.h"
+
+1409233975 c:\users\jacob\documents\c++ prog\myos\date.h
+	<iostream>
+	<string>
+	<ctime>
+
+1409234639 source:c:\users\jacob\documents\c++ prog\myos\version.cpp
+	"version.h"
+
+1409234701 source:c:\users\jacob\documents\c++ prog\myos\main.cpp
+	"date.h"
+	"version.h"
+
+1409236220 source:c:\users\jacob\documents\c++ prog\myos\exit.cpp
+	"exit.h"
+
+1409236130 c:\users\jacob\documents\c++ prog\myos\exit.h
+	<iostream>
+	<string>
+	<stdlib.h>
+
+1409234608 c:\users\jacob\documents\c++ prog\myos\version.h
+	<iostream>
+	<string>
+
+1409234905 source:c:\users\jacob\documents\c++ prog\myos\controller.cpp
+	"controller.h"
+
+1409234905 c:\users\jacob\documents\c++ prog\myos\controller.h
+
+1409235451 source:c:\users\jacob\documents\c++ prog\myos\directory.cpp
+	"directory.h"
+
+1409235452 c:\users\jacob\documents\c++ prog\myos\directory.h
+
+1409451861 source:c:\users\jacob\documents\operating systems\myos\controller.cpp
+	"controller.h"
+
+1409364364 c:\users\jacob\documents\operating systems\myos\controller.h
+	<iostream>
+	<string>
+	<vector>
+	"date.h"
+	"version.h"
+	"exit.h"
+	"directory.h"
+	"help.h"
+
+1409336704 source:c:\users\jacob\documents\operating systems\myos\date.cpp
+	"date.h"
+
+1409255165 c:\users\jacob\documents\operating systems\myos\date.h
+	<iostream>
+	<string>
+	<time.h>
+
+1409364960 source:c:\users\jacob\documents\operating systems\myos\directory.cpp
+	"directory.h"
+
+1409336704 c:\users\jacob\documents\operating systems\myos\directory.h
+	<iostream>
+	<string>
+	<stdlib.h>
+	<Windows.h>
+	<vector>
+	<stdio.h>
+
+1409336704 source:c:\users\jacob\documents\operating systems\myos\exit.cpp
+	"exit.h"
+
+1409254643 c:\users\jacob\documents\operating systems\myos\exit.h
+	<iostream>
+	<string>
+	<stdlib.h>
+
+1409234639 source:c:\users\jacob\documents\operating systems\myos\version.cpp
+	"version.h"
+
+1409254643 c:\users\jacob\documents\operating systems\myos\version.h
+	<iostream>
+	<string>
+
+1409338524 source:c:\users\jacob\documents\operating systems\myos\main.cpp
+	"date.h"
+	"version.h"
+	"exit.h"
+	"directory.h"
+	"controller.h"
+
+1409364226 c:\users\jacob\documents\operating systems\myos\help.h
+	<iostream>
+	<string>
+	<vector>
+
+1409364437 source:c:\users\jacob\documents\operating systems\myos\help.cpp
+	"help.h"
+
