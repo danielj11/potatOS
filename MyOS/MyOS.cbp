@@ -42,6 +42,10 @@
 		<Unit filename="help.cpp" />
 		<Unit filename="help.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="pcb.cpp" />
+		<Unit filename="pcb.h" />
+		<Unit filename="pcbqueue.cpp" />
+		<Unit filename="pcbqueue.h" />
 		<Unit filename="version.cpp" />
 		<Unit filename="version.h" />
 		<Extensions>

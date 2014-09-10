@@ -11,7 +11,7 @@ class exitSim
 {
 public:
     exitSim();
-    void escapeSim();
+    bool escapeSim();
     ~exitSim();
 };
 

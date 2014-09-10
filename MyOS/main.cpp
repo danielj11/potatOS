@@ -1,20 +1,18 @@
-#include "date.h"
-#include "version.h"
-#include "exit.h"
-#include "directory.h"
 #include "controller.h"
 
 void dateTestDriver();
 void versionTestDriver();
 void exitTestDriver();
 void directoryTestDriver();
+void PCBTestDriver();
 
 int main()
 {
     /*dateTestDriver();
     versionTestDriver();
     directoryTestDriver();
-    exitTestDriver();*/
+    exitTestDriver();
+    PCBTestDriver();*/
 
     controller myController;
     myController.runSim();
@@ -44,4 +42,23 @@ void directoryTestDriver()
 {
     directory testDirectory;
     testDirectory.showFiles();
+}
+
+void PCBTestDriver()
+{
+    controller testController;
+
+    pcb* testPCB;
+    testPCB = testController.setupPCB("bob", 17, 'S');
+    pcb* testPCB2;
+    testPCB2 = testController.setupPCB("joe", 52, 'S');
+
+    testController.insertPCB(testPCB);
+    testController.insertPCB(testPCB2);
+
+    cout << testController.ready.queueSize << endl;
+
+    testController.removePCB(testPCB2);
+
+    cout << testController.ready.queueSize << endl;
 }

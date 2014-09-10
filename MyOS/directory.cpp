@@ -33,6 +33,33 @@ void directory::showFiles() //prints list of filenames in directory
         cout << fileNames[i] << endl;
     }
 
+    int i = 0;
+
+    /*while (i < fileNames.size())
+    {
+            if (i == fileNames.size())
+            {
+               cout << fileNames[i] <<endl;
+            }
+            else
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    cout << fileNames[i] << "    " << fileNames[i+1] <<  endl;
+                    i = i + 2;
+                }
+            }
+    }*/
+
+    /*for (int i = 0; i < fileNames.size(); i++) //print filenames from vector
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            cout << fileNames[i] << "    " << fileNames[i+1] <<  endl;
+            i++;
+        }
+    }*/
+
     cout << endl;
 
     return;

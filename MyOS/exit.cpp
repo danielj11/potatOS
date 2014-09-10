@@ -5,10 +5,24 @@ exitSim::exitSim()
 
 }
 
-void exitSim::escapeSim() //Exits simulator
+bool exitSim::escapeSim() //Exits simulator
 {
-    cout << "Goodbye!" << endl;
-    exit(0);
+    string exitChoice = "N";
+
+    cout << "Are you sure you want to exit(Y/N)? ";
+    cin >> exitChoice;
+    cout << endl;
+
+    if (exitChoice == "Y" || exitChoice == "y")
+    {
+        cout << "Goodbye!" << endl;
+        exit(0);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 exitSim::~exitSim()

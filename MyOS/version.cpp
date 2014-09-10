@@ -7,7 +7,7 @@ version::version()
 
 void version::displayVersion()
 {
-    cout << "This is version " << versionNum << "." << endl;
+    cout << "This is version " << versionNum << " of potatOS." << endl << endl;
 }
 
 version::~version()

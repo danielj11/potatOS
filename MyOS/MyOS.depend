@@ -36,10 +36,10 @@
 
 1409235452 c:\users\jacob\documents\c++ prog\myos\directory.h
 
-1409451861 source:c:\users\jacob\documents\operating systems\myos\controller.cpp
+1410310406 source:c:\users\jacob\documents\operating systems\myos\controller.cpp
 	"controller.h"
 
-1409364364 c:\users\jacob\documents\operating systems\myos\controller.h
+1410209828 c:\users\jacob\documents\operating systems\myos\controller.h
 	<iostream>
 	<string>
 	<vector>
@@ -48,8 +48,9 @@
 	"exit.h"
 	"directory.h"
 	"help.h"
+	"pcbqueue.h"
 
-1409336704 source:c:\users\jacob\documents\operating systems\myos\date.cpp
+1409708568 source:c:\users\jacob\documents\operating systems\myos\date.cpp
 	"date.h"
 
 1409255165 c:\users\jacob\documents\operating systems\myos\date.h
@@ -57,7 +58,7 @@
 	<string>
 	<time.h>
 
-1409364960 source:c:\users\jacob\documents\operating systems\myos\directory.cpp
+1409709204 source:c:\users\jacob\documents\operating systems\myos\directory.cpp
 	"directory.h"
 
 1409336704 c:\users\jacob\documents\operating systems\myos\directory.h
@@ -68,26 +69,22 @@
 	<vector>
 	<stdio.h>
 
-1409336704 source:c:\users\jacob\documents\operating systems\myos\exit.cpp
+1410031856 source:c:\users\jacob\documents\operating systems\myos\exit.cpp
 	"exit.h"
 
-1409254643 c:\users\jacob\documents\operating systems\myos\exit.h
+1410031827 c:\users\jacob\documents\operating systems\myos\exit.h
 	<iostream>
 	<string>
 	<stdlib.h>
 
-1409234639 source:c:\users\jacob\documents\operating systems\myos\version.cpp
+1409708568 source:c:\users\jacob\documents\operating systems\myos\version.cpp
 	"version.h"
 
 1409254643 c:\users\jacob\documents\operating systems\myos\version.h
 	<iostream>
 	<string>
 
-1409338524 source:c:\users\jacob\documents\operating systems\myos\main.cpp
-	"date.h"
-	"version.h"
-	"exit.h"
-	"directory.h"
+1410209845 source:c:\users\jacob\documents\operating systems\myos\main.cpp
 	"controller.h"
 
 1409364226 c:\users\jacob\documents\operating systems\myos\help.h
@@ -95,6 +92,22 @@
 	<string>
 	<vector>
 
-1409364437 source:c:\users\jacob\documents\operating systems\myos\help.cpp
+1409836841 source:c:\users\jacob\documents\operating systems\myos\help.cpp
 	"help.h"
+
+1410300376 source:c:\users\jacob\documents\operating systems\myos\pcb.cpp
+	"pcb.h"
+
+1410213987 source:c:\users\jacob\documents\operating systems\myos\pcbqueue.cpp
+	"pcbqueue.h"
+
+1410205617 c:\users\jacob\documents\operating systems\myos\pcbqueue.h
+	"pcb.h"
+	<vector>
+
+1410300376 c:\users\jacob\documents\operating systems\myos\pcb.h
+	<iostream>
+	<string>
+
+1410310367 source:c:\users\jacob\documents\operating systems\myos\controllerpcp.cpp
 
