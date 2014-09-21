@@ -7,6 +7,9 @@ pcb::pcb()
     state1 = "ready";
     state2 = "not";
     memory = 5;
+    timeRemaining = 0;
+    timeOfArrival = 0;
+    cpuPercent = 0;
 }
 
 pcb::~pcb()

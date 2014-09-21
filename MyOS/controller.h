@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdlib.h>
+#include <fstream>
+
 #include "date.h"
 #include "version.h"
 #include "exit.h"
@@ -31,11 +34,16 @@ public:
     pcb* setupPCB(string name, int pcbPriority, char type); //return pcb*
     void removePCB(pcb* pcbToRemove);
     void freePCB(pcb* pcbToFree);
+    pcb* createProcess(string name, char pcbClass, int pcbPri,int mem, int timeR, int timeA, int percent);
+    void printReady();
+    void readFile();
+    void shortestJobFirstFK(); //shortest job first - full knowledge
 
     pcbQueue ready;
     pcbQueue blocked;
     pcbQueue suspendedReady;
     pcbQueue suspendedBlocked;
+    vector<pcb*> filepcbs;
 private:
     char userChoice;
     int userPCBChoice;

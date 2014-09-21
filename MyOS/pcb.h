@@ -17,6 +17,9 @@ public:
     string state1; //running, ready, or blocked
     string state2; //suspended or not  "not" = not suspended, "suspended" means suspended
     int memory; //how much memory the process needs
+    int timeRemaining;
+    int timeOfArrival;
+    int cpuPercent;
 private:
 
 };

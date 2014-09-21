@@ -127,6 +127,7 @@ void controller::runSim() //runs the simulation
     }
 }
 
+
 void controller::runPCBFunctions()
 {
     switch (userPCBChoice)
@@ -574,27 +575,7 @@ void controller::runPCBFunctions()
         }
     case 10://Show ready
         {
-            cout << "Ready queue contains: " << endl;
-            for (int i = 0; i < ready.queueSize; i++)
-            {
-                if (ready.heldItems[i] == NULL)
-                {
-                    cout << "PCB could not be found!" << endl;
-                }
-                else
-                {
-                    cout << ready.heldItems[i] -> processName << " - " << ready.heldItems[i] -> state1 << " - ";
-                    if (ready.heldItems[i] -> state2 == "not")
-                    {
-                        cout << "unsuspended" << " - ";
-                    }
-                    else
-                    {
-                        cout << ready.heldItems[i] -> state2 << " - ";
-                    }
-                    cout << ready.heldItems[i] -> priority << endl;
-                }
-            }
+            printReady();
             break;
         }
     case 11://Show blocked
@@ -831,6 +812,163 @@ void controller::removePCB(pcb* pcbToRemove)//removes pcb from queue
 void controller::freePCB(pcb* pcbToFree)//frees memory of pcb
 {
     delete pcbToFree;
+}
+
+
+pcb* controller::createProcess(string name, char pcbClass, int pcbPriority, int mem, int timeR, int timeA, int percent)
+{
+    pcb* tempPCB;
+    tempPCB = allocatePCB();
+    tempPCB -> processName = name;
+    tempPCB -> processType = pcbClass;
+    tempPCB -> priority = pcbPriority;
+    tempPCB -> state1 = "ready";
+    tempPCB -> state2 = "not";//not suspended
+    tempPCB -> timeRemaining = timeR;
+    tempPCB -> timeOfArrival = timeA;
+    tempPCB -> cpuPercent = percent;
+    tempPCB -> memory = mem;
+
+    return tempPCB;
+}
+
+
+void controller::printReady()
+{
+    cout << "Ready queue contains: " << endl;
+    for (int i = 0; i < ready.queueSize; i++)
+    {
+        if (ready.heldItems[i] == NULL)
+        {
+            cout << "PCB could not be found!" << endl;
+        }
+        else
+        {
+            cout << ready.heldItems[i] -> processName << " - " << ready.heldItems[i] -> state1 << " - ";
+            if (ready.heldItems[i] -> state2 == "not")
+            {
+                cout << "unsuspended" << " - ";
+            }
+            else
+            {
+                cout << ready.heldItems[i] -> state2 << " - ";
+            }
+
+            cout << ready.heldItems[i] -> priority << endl;
+        }
+    }
+
+    cout << endl;
+
+    return;
+}
+
+
+void controller::readFile()
+{
+    string wordString;
+    string userFile; //Stores user's file name
+    int counter = 0; //Counts words in file
+    pcb* tempPCB;
+
+    //New PCB's contents
+    string newName;
+    char newClass;
+    int newPriority;
+    int newMemory;
+    int remaining;
+    int arrival;
+    int newPercent;
+
+    cout << "Enter your filename: ";
+    cin >> userFile;
+    ifstream inputFile(userFile.c_str());
+
+    while(!inputFile.eof())
+    {
+        inputFile >> wordString;
+
+        counter++;
+
+        switch (counter)
+        {
+        case 1://name
+            //cout << wordString << endl;
+            newName = wordString;
+            break;
+        case 2://class
+            //cout << wordString << endl;
+            newClass = wordString[0];
+            break;
+        case 3://priority
+            //cout << wordString << endl;
+            newPriority = atoi(wordString.c_str());
+            break;
+        case 4://memory
+            //cout << wordString << endl;
+            newMemory = atoi(wordString.c_str());
+            break;
+        case 5://time remaining
+            //cout << wordString << endl;
+            remaining = atoi(wordString.c_str());
+            break;
+        case 6://time of arrival
+            //cout << wordString << endl;
+            arrival = atoi(wordString.c_str());
+            break;
+        case 7://percentage of CPU
+            //cout << wordString << endl;
+            newPercent = atoi(wordString.c_str());
+            break;
+        default:
+            cout << "Error!!!" << endl;
+        }
+
+        if (counter == 7)//reset counter for next pcb's contents
+        {
+            counter = 0;
+            tempPCB = createProcess(newName, newClass, newPriority, newMemory, remaining, arrival, newPercent);
+            filepcbs.push_back(tempPCB);
+        }
+    }
+}
+
+
+//runs processes using shortest job first schedule with full knowledgeof all processes
+void controller::shortestJobFirstFK()
+{
+    readFile();
+
+    int shortestTimeRemaining = filepcbs[0] -> timeRemaining;
+    int position = 0;
+    int numberOfPCBs = filepcbs.size();
+
+    while (ready.queueSize != numberOfPCBs)//while there are more pcbs in the file than are in ready queue
+    {
+        for (int i = 0; i < filepcbs.size(); i++)
+        {
+            //looks for shortes remianing time of all pcbs to put in ready queue
+            if (filepcbs[i] -> timeRemaining < shortestTimeRemaining)
+            {
+                shortestTimeRemaining = filepcbs[i] -> timeRemaining;
+                position = i;
+            }
+        }
+
+        ready.addPCB(filepcbs[position]);
+        filepcbs.erase(filepcbs.begin() + position);//delete same PCB from filepcbs
+        position = 0;
+        shortestTimeRemaining = filepcbs[0] -> timeRemaining;
+    }
+
+    printReady();
+
+    while (ready.queueSize != 0)
+    {
+        cout << ready.heldItems[0]-> processName << " is completed!" << endl;
+        ready.heldItems.erase(ready.heldItems.begin());
+        ready.queueSize = ready.heldItems.size();
+    }
 }
 
 

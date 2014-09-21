@@ -111,3 +111,78 @@
 
 1410310367 source:c:\users\jacob\documents\operating systems\myos\controllerpcp.cpp
 
+1409708568 source:c:\users\jacob\documents\github\potatos\myos\date.cpp
+	"date.h"
+
+1409255165 c:\users\jacob\documents\github\potatos\myos\date.h
+	<iostream>
+	<string>
+	<time.h>
+
+1409709204 source:c:\users\jacob\documents\github\potatos\myos\directory.cpp
+	"directory.h"
+
+1409336704 c:\users\jacob\documents\github\potatos\myos\directory.h
+	<iostream>
+	<string>
+	<stdlib.h>
+	<Windows.h>
+	<vector>
+	<stdio.h>
+
+1410031856 source:c:\users\jacob\documents\github\potatos\myos\exit.cpp
+	"exit.h"
+
+1410031827 c:\users\jacob\documents\github\potatos\myos\exit.h
+	<iostream>
+	<string>
+	<stdlib.h>
+
+1409836841 source:c:\users\jacob\documents\github\potatos\myos\help.cpp
+	"help.h"
+
+1409364226 c:\users\jacob\documents\github\potatos\myos\help.h
+	<iostream>
+	<string>
+	<vector>
+
+1411260657 source:c:\users\jacob\documents\github\potatos\myos\main.cpp
+	"controller.h"
+
+1411260648 c:\users\jacob\documents\github\potatos\myos\controller.h
+	<iostream>
+	<string>
+	<vector>
+	<stdlib.h>
+	<fstream>
+	"date.h"
+	"version.h"
+	"exit.h"
+	"directory.h"
+	"help.h"
+	"pcbqueue.h"
+
+1409254643 c:\users\jacob\documents\github\potatos\myos\version.h
+	<iostream>
+	<string>
+
+1410205617 c:\users\jacob\documents\github\potatos\myos\pcbqueue.h
+	"pcb.h"
+	<vector>
+
+1411246419 c:\users\jacob\documents\github\potatos\myos\pcb.h
+	<iostream>
+	<string>
+
+1411246419 source:c:\users\jacob\documents\github\potatos\myos\pcb.cpp
+	"pcb.h"
+
+1410213987 source:c:\users\jacob\documents\github\potatos\myos\pcbqueue.cpp
+	"pcbqueue.h"
+
+1409708568 source:c:\users\jacob\documents\github\potatos\myos\version.cpp
+	"version.h"
+
+1411261720 source:c:\users\jacob\documents\github\potatos\myos\controller.cpp
+	"controller.h"
+

@@ -5,6 +5,7 @@ void versionTestDriver();
 void exitTestDriver();
 void directoryTestDriver();
 void PCBTestDriver();
+void test3();
 
 int main()
 {
@@ -14,8 +15,10 @@ int main()
     exitTestDriver();
     PCBTestDriver();*/
 
-    controller myController;
-    myController.runSim();
+    /*controller myController;
+    myController.runSim();*/
+
+    test3();
 
     return 0;
 }
@@ -61,4 +64,10 @@ void PCBTestDriver()
     testController.removePCB(testPCB2);
 
     cout << testController.ready.queueSize << endl;
+}
+
+void test3()
+{
+    controller testController;
+    testController.shortestJobFirstFK();
 }
