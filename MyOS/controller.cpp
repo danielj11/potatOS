@@ -5,6 +5,7 @@ controller::controller()
     userChoice = '0';
     userPCBChoice = 0;
     exitFlag = false;
+    runningPCB = new pcb;
 }
 
 
@@ -939,15 +940,18 @@ void controller::shortestJobFirstFK()
 {
     readFile();
 
-    int shortestTimeRemaining = filepcbs[0] -> timeRemaining;
+    int completionTime = 0; //how long a process takes to complete
+    int turnaroundTime = 0; //turnaround time of process
+    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
     int position = 0;
     int numberOfPCBs = filepcbs.size();
+    vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
 
     while (ready.queueSize != numberOfPCBs)//while there are more pcbs in the file than are in ready queue
     {
         for (int i = 0; i < filepcbs.size(); i++)
         {
-            //looks for shortes remianing time of all pcbs to put in ready queue
+            //looks for shortest remianing time of all pcbs to put in ready queue
             if (filepcbs[i] -> timeRemaining < shortestTimeRemaining)
             {
                 shortestTimeRemaining = filepcbs[i] -> timeRemaining;
@@ -961,14 +965,44 @@ void controller::shortestJobFirstFK()
         shortestTimeRemaining = filepcbs[0] -> timeRemaining;
     }
 
-    printReady();
+        cout << "Ready queue contains: " << endl;
+
+
+    cout << "Process Name - Time Remaining" << endl;
+
+    for (int i = 0; i < ready.queueSize; i++)
+    {
+        if (ready.heldItems[i] == NULL)
+        {
+            cout << "PCB could not be found!" << endl;
+        }
+        else
+        {
+            cout << ready.heldItems[i] -> processName << " - " << ready.heldItems[i] -> timeRemaining << endl;
+        }
+    }
+
+    cout << endl;
 
     while (ready.queueSize != 0)
     {
         cout << ready.heldItems[0]-> processName << " is completed!" << endl;
+        completionTime = completionTime + ready.heldItems[0]-> timeRemaining;
+        turnaroundTime = completionTime - ready.heldItems[0]->timeOfArrival;
+        storeTurnaround.push_back(turnaroundTime);
         ready.heldItems.erase(ready.heldItems.begin());
         ready.queueSize = ready.heldItems.size();
     }
+    turnaroundTime = 0;
+    for (int i = 0; i < storeTurnaround.size(); i++)
+    {
+        turnaroundTime = turnaroundTime + storeTurnaround[i];
+    }
+
+    //Calculateand print average turnaround time
+    turnaroundTime = turnaroundTime/ storeTurnaround.size();
+    cout << "Total time to completion: " << completionTime << endl;
+    cout << "Average Turnaround Time: " << turnaroundTime << endl;
 }
 
 

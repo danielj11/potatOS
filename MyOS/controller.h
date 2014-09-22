@@ -39,6 +39,7 @@ public:
     void readFile();
     void shortestJobFirstFK(); //shortest job first - full knowledge
 
+    pcb* runningPCB;
     pcbQueue ready;
     pcbQueue blocked;
     pcbQueue suspendedReady;
