@@ -7,6 +7,7 @@ void directoryTestDriver();
 void PCBTestDriver();
 void SJFTestDriver();
 void FIFOTestDriver();
+void STCFTestDriver();
 
 int main()
 {
@@ -20,7 +21,8 @@ int main()
     myController.runSim();*/
 
     //SJFTestDriver();
-    FIFOTestDriver();
+    //FIFOTestDriver();
+    STCFTestDriver();
 
     return 0;
 }
@@ -78,4 +80,10 @@ void FIFOTestDriver()
 {
     controller testController;
     testController.firstInFirstOut();
+}
+
+void STCFTestDriver()
+{
+    controller testController;
+    testController.shortestTimeToCompletion();
 }

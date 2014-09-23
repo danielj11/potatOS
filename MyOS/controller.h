@@ -38,8 +38,9 @@ public:
     void printReady();
     void readFile();
     void shortestJobFirstFK(); //shortest job first - full knowledge
-    void firstInFirstOut();
-    void shortestTimeToCompletion();
+    void firstInFirstOut(); //First in first out
+    void shortestTimeToCompletion(); //shortest time to completion first
+    void fixedPriority();//fixed priority pre-emptive scheduling
 
     pcb* runningPCB;
     pcbQueue ready;
