@@ -5,7 +5,8 @@ void versionTestDriver();
 void exitTestDriver();
 void directoryTestDriver();
 void PCBTestDriver();
-void test3();
+void SJFTestDriver();
+void FIFOTestDriver();
 
 int main()
 {
@@ -18,7 +19,8 @@ int main()
     /*controller myController;
     myController.runSim();*/
 
-    test3();
+    //SJFTestDriver();
+    FIFOTestDriver();
 
     return 0;
 }
@@ -66,8 +68,14 @@ void PCBTestDriver()
     cout << testController.ready.queueSize << endl;
 }
 
-void test3()
+void SJFTestDriver()
 {
     controller testController;
     testController.shortestJobFirstFK();
+}
+
+void FIFOTestDriver()
+{
+    controller testController;
+    testController.firstInFirstOut();
 }

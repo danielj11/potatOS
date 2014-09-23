@@ -993,16 +993,100 @@ void controller::shortestJobFirstFK()
         ready.heldItems.erase(ready.heldItems.begin());
         ready.queueSize = ready.heldItems.size();
     }
+
     turnaroundTime = 0;
+
     for (int i = 0; i < storeTurnaround.size(); i++)
     {
         turnaroundTime = turnaroundTime + storeTurnaround[i];
     }
 
-    //Calculateand print average turnaround time
-    turnaroundTime = turnaroundTime/ storeTurnaround.size();
+    //Calculate and print average turnaround time
+    turnaroundTime = turnaroundTime / storeTurnaround.size();
     cout << "Total time to completion: " << completionTime << endl;
     cout << "Average Turnaround Time: " << turnaroundTime << endl;
+
+    return;
+}
+
+
+void controller::firstInFirstOut()
+{
+    readFile();
+
+    int completionTime = 0; //how long a process takes to complete
+    int turnaroundTime = 0; //turnaround time of process
+    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
+    int position = 0;
+    int numberOfPCBs = filepcbs.size();
+    int counter = 0;
+    bool done = false;
+    vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
+
+    while (!done)
+    {
+        if (filepcbs[0] -> timeOfArrival == counter)//if it's tiime for a process to arrive, add it to ready queue
+        {
+            ready.addPCB(filepcbs[0]);
+            cout << filepcbs[0] -> processName << " has entered the system!" << endl;//print process name when it enters ready queue
+            filepcbs.erase(filepcbs.begin()+0);
+
+            if (ready.queueSize == numberOfPCBs) //if all pcbs are in ready queue, print its contents
+            {
+                printReady();
+            }
+        }
+
+        //counter++;//add 1 to counter
+
+        if (ready.heldItems.size() > 0)
+        {
+            ready.heldItems[0] -> timeRemaining = ready.heldItems[0] -> timeRemaining - 1; //lower time remaining by one
+
+            if (ready.heldItems[0] -> timeRemaining == 0)//if process is finished
+            {
+                cout << ready.heldItems[0] -> processName << " completed!" << endl;
+                turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
+                storeTurnaround.push_back(turnaroundTime);
+                turnaroundTime = 0;
+                ready.heldItems.erase(ready.heldItems.begin()+0);
+            }
+        }
+        else
+        {
+            done = true;
+        }
+
+        counter++;//add 1 to counter
+    }
+
+    for (int i = 0; i < storeTurnaround.size(); i++)
+    {
+        turnaroundTime = turnaroundTime + storeTurnaround[i];
+    }
+
+    //Calculate and print average turnaround time
+    turnaroundTime = turnaroundTime / storeTurnaround.size();
+
+    cout << "Completion Time: " << counter << endl;
+    cout << "Average Turnaround Time: " << turnaroundTime << endl;
+
+}
+
+void controller::shortestTimeToCompletion()
+{
+    readFile();
+
+    int completionTime = 0; //how long a process takes to complete
+    int turnaroundTime = 0; //turnaround time of process
+    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
+    int position = 0;
+    int numberOfPCBs = filepcbs.size();
+    int counter = 0;
+    bool done = false;
+    vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
+
+    return;
 }
 
 

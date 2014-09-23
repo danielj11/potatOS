@@ -38,6 +38,8 @@ public:
     void printReady();
     void readFile();
     void shortestJobFirstFK(); //shortest job first - full knowledge
+    void firstInFirstOut();
+    void shortestTimeToCompletion();
 
     pcb* runningPCB;
     pcbQueue ready;
