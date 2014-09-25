@@ -8,6 +8,7 @@ void PCBTestDriver();
 void SJFTestDriver();
 void FIFOTestDriver();
 void STCFTestDriver();
+void priorityTestDriver();
 
 int main()
 {
@@ -22,7 +23,8 @@ int main()
 
     //SJFTestDriver();
     //FIFOTestDriver();
-    STCFTestDriver();
+    //STCFTestDriver();
+    priorityTestDriver();
 
     return 0;
 }
@@ -86,4 +88,10 @@ void STCFTestDriver()
 {
     controller testController;
     testController.shortestTimeToCompletion();
+}
+
+void priorityTestDriver()
+{
+    controller testController;
+    testController.fixedPriority();
 }
