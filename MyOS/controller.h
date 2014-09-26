@@ -36,11 +36,12 @@ public:
     void freePCB(pcb* pcbToFree);
     pcb* createProcess(string name, char pcbClass, int pcbPri,int mem, int timeR, int timeA, int percent);
     void printReady();
-    void readFile();
+    bool readFile();
     void shortestJobFirstFK(); //shortest job first - full knowledge
     void firstInFirstOut(); //First in first out
     void shortestTimeToCompletion(); //shortest time to completion first
     void fixedPriority();//fixed priority pre-emptive scheduling
+    void roundRobin();
 
     pcb* runningPCB;
     pcbQueue ready;

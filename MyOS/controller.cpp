@@ -879,7 +879,7 @@ void controller::printReady()
 }
 
 
-void controller::readFile()
+bool controller::readFile()
 {
     string wordString;
     string userFile; //Stores user's file name
@@ -900,62 +900,77 @@ void controller::readFile()
     cin >> userFile;
     ifstream inputFile(userFile.c_str());
 
-    while(!inputFile.eof())
+    if (!inputFile)
     {
-        inputFile >> wordString;
-
-        counter++;
-
-        switch (counter)
-        {
-        case 1://name
-            //cout << wordString << endl;
-            newName = wordString;
-            break;
-        case 2://class
-            //cout << wordString << endl;
-            newClass = wordString[0];
-            break;
-        case 3://priority
-            //cout << wordString << endl;
-            newPriority = atoi(wordString.c_str());
-            break;
-        case 4://memory
-            //cout << wordString << endl;
-            newMemory = atoi(wordString.c_str());
-            break;
-        case 5://time remaining
-            //cout << wordString << endl;
-            remaining = atoi(wordString.c_str());
-            break;
-        case 6://time of arrival
-            //cout << wordString << endl;
-            arrival = atoi(wordString.c_str());
-            break;
-        case 7://percentage of CPU
-            //cout << wordString << endl;
-            newPercent = atoi(wordString.c_str());
-            break;
-        default:
-            cout << "Error!!!" << endl;
-        }
-
-        if (counter == 7)//reset counter for next pcb's contents
-        {
-            counter = 0;
-            tempPCB = createProcess(newName, newClass, newPriority, newMemory, remaining, arrival, newPercent);
-            filepcbs.push_back(tempPCB);
-        }
+        cout << endl;
+        return false;
     }
+    else
+    {
+        while(!inputFile.eof())
+        {
+            inputFile >> wordString;
+
+            counter++;
+
+            switch (counter)
+            {
+            case 1://name
+                //cout << wordString << endl;
+                newName = wordString;
+                cout << newName << endl;
+                break;
+            case 2://class
+                //cout << wordString << endl;
+                newClass = wordString[0];
+                break;
+            case 3://priority
+                //cout << wordString << endl;
+                newPriority = atoi(wordString.c_str());
+                break;
+            case 4://memory
+                //cout << wordString << endl;
+                newMemory = atoi(wordString.c_str());
+                break;
+            case 5://time remaining
+                //cout << wordString << endl;
+                remaining = atoi(wordString.c_str());
+                break;
+            case 6://time of arrival
+                //cout << wordString << endl;
+                arrival = atoi(wordString.c_str());
+                break;
+            case 7://percentage of CPU
+                //cout << wordString << endl;
+                newPercent = atoi(wordString.c_str());
+                break;
+            default:
+                cout << "Error!!!" << endl;
+            }
+
+            if (counter == 7)//reset counter for next pcb's contents
+            {
+                counter = 0;
+                tempPCB = createProcess(newName, newClass, newPriority, newMemory, remaining, arrival, newPercent);
+                filepcbs.push_back(tempPCB);
+            }
+        }
 
     cout << endl;
+    return true;
+
+    }
 }
 
 
 //runs processes using shortest job first schedule with full knowledgeof all processes
 void controller::shortestJobFirstFK()
 {
-    readFile();
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
 
     int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
@@ -1029,7 +1044,11 @@ void controller::shortestJobFirstFK()
 
 void controller::firstInFirstOut()
 {
-    readFile();
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
 
     int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
@@ -1092,7 +1111,11 @@ void controller::firstInFirstOut()
 
 void controller::shortestTimeToCompletion()
 {
-    readFile(); //read in file
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
 
     int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
@@ -1186,7 +1209,11 @@ void controller::shortestTimeToCompletion()
 
 void controller::fixedPriority()
 {
-    readFile(); //read in file
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
 
     int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
@@ -1276,6 +1303,83 @@ void controller::fixedPriority()
     }
 
     return;
+}
+
+void controller::roundRobin()
+{
+    readFile(); //read in file
+
+    int completionTime = 0; //how long a process takes to complete
+    int turnaroundTime = 0; //turnaround time of process
+    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
+    int position = 0; //used to find exact lpcations of pcbs
+    int numberOfPCBs = filepcbs.size();
+    int counter = 0; //timer
+    bool done = false; //determines when scheduler is finished
+    vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
+    int timeQuantum = 0;
+    int quantumRemaining = 0;
+    pcb* tempPCB = new pcb;
+
+    cout << "Enter a time quantum: ";
+    cin >> timeQuantum;
+    cout << endl;
+
+    quantumRemaining = timeQuantum;
+
+    while (!done)
+    {
+        if (ready.queueSize == 0 && filepcbs.size() == 0)
+        {
+            cout << "All processes have completed!" << endl;
+            done = true;
+
+        }
+
+        if (filepcbs[0] -> timeOfArrival == counter)
+        {
+            ready.addPCB(filepcbs[0]);
+            cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+            filepcbs.erase(filepcbs.begin()+0);
+
+            if (ready.queueSize == numberOfPCBs)
+            {
+                printReady();
+            }
+        }
+
+        if (ready.queueSize != 0)
+        {
+            if (quantumRemaining > 0)
+            {
+                ready.heldItems[0] -> timeRemaining = ready.heldItems[0] -> timeRemaining - 1;
+                quantumRemaining--;
+            }
+
+            if (ready.heldItems[0] -> timeRemaining == 0)
+            {
+                cout << ready.heldItems[0] -> processName << " completed" << endl;
+                turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
+                storeTurnaround.push_back(turnaroundTime);
+                ready.deletePCB(ready.heldItems[0]);
+                quantumRemaining = timeQuantum;
+            }
+
+            if (quantumRemaining == 0)
+            {
+                pcb* tempPCB = ready.heldItems[0];
+                ready.deletePCB(tempPCB);
+                ready.addPCB(tempPCB);
+                quantumRemaining = timeQuantum;
+            }
+
+
+        }
+
+        counter++;
+    }
+
+
 }
 
 

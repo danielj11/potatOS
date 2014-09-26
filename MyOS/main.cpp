@@ -9,6 +9,7 @@ void SJFTestDriver();
 void FIFOTestDriver();
 void STCFTestDriver();
 void priorityTestDriver();
+void roundRobinTestDriver();
 
 int main()
 {
@@ -24,7 +25,8 @@ int main()
     //SJFTestDriver();
     //FIFOTestDriver();
     //STCFTestDriver();
-    priorityTestDriver();
+    //priorityTestDriver();
+    roundRobinTestDriver();
 
     return 0;
 }
@@ -94,4 +96,10 @@ void priorityTestDriver()
 {
     controller testController;
     testController.fixedPriority();
+}
+
+void roundRobinTestDriver()
+{
+    controller testController;
+    testController.roundRobin();
 }
