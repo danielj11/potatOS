@@ -37,11 +37,13 @@ public:
     pcb* createProcess(string name, char pcbClass, int pcbPri,int mem, int timeR, int timeA, int percent);
     void printReady();
     bool readFile();
-    void shortestJobFirstFK(); //shortest job first - full knowledge
-    void firstInFirstOut(); //First in first out
-    void shortestTimeToCompletion(); //shortest time to completion first
-    void fixedPriority();//fixed priority pre-emptive scheduling
-    void roundRobin();
+    void SJF(); //shortest job first - full knowledge
+    void FIFO(); //First in first out
+    void STCF(); //shortest time to completion first
+    void FPPS();//fixed priority pre-emptive scheduling
+    void RR();
+    void MLFQ();
+    void LS();
 
     pcb* runningPCB;
     pcbQueue ready;

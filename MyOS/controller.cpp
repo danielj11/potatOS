@@ -964,7 +964,7 @@ bool controller::readFile()
 
 
 //runs processes using shortest job first schedule with full knowledgeof all processes
-void controller::shortestJobFirstFK()
+void controller::SJF()
 {
     if(!readFile())//read in file
     {
@@ -1042,7 +1042,7 @@ void controller::shortestJobFirstFK()
 }
 
 
-void controller::firstInFirstOut()
+void controller::FIFO()
 {
     if(!readFile())//read in file
     {
@@ -1050,10 +1050,7 @@ void controller::firstInFirstOut()
         return;
     }
 
-    int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
-    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
-    int position = 0;
     int numberOfPCBs = filepcbs.size();
     int counter = 0;
     bool done = false;
@@ -1109,7 +1106,7 @@ void controller::firstInFirstOut()
 
 }
 
-void controller::shortestTimeToCompletion()
+void controller::STCF()
 {
     if(!readFile())//read in file
     {
@@ -1117,9 +1114,7 @@ void controller::shortestTimeToCompletion()
         return;
     }
 
-    int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
-    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
     int position = 0; //used to find exact lpcations of pcbs
     int numberOfPCBs = filepcbs.size();
     int counter = 0; //timer
@@ -1207,7 +1202,7 @@ void controller::shortestTimeToCompletion()
     return;
 }
 
-void controller::fixedPriority()
+void controller::FPPS()
 {
     if(!readFile())//read in file
     {
@@ -1215,9 +1210,7 @@ void controller::fixedPriority()
         return;
     }
 
-    int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
-    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
     int position = 0; //used to find exact lpcations of pcbs
     int numberOfPCBs = filepcbs.size();
     int counter = 0; //timer
@@ -1305,14 +1298,15 @@ void controller::fixedPriority()
     return;
 }
 
-void controller::roundRobin()
+void controller::RR()
 {
-    readFile(); //read in file
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
 
-    int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
-    int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
-    int position = 0; //used to find exact lpcations of pcbs
     int numberOfPCBs = filepcbs.size();
     int counter = 0; //timer
     bool done = false; //determines when scheduler is finished
@@ -1333,7 +1327,6 @@ void controller::roundRobin()
         {
             cout << "All processes have completed!" << endl;
             done = true;
-
         }
 
         if (filepcbs[0] -> timeOfArrival == counter)
@@ -1367,7 +1360,7 @@ void controller::roundRobin()
 
             if (quantumRemaining == 0)
             {
-                pcb* tempPCB = ready.heldItems[0];
+                tempPCB = ready.heldItems[0];
                 ready.deletePCB(tempPCB);
                 ready.addPCB(tempPCB);
                 quantumRemaining = timeQuantum;
@@ -1379,6 +1372,153 @@ void controller::roundRobin()
         counter++;
     }
 
+    return;
+}
+
+void controller::MLFQ()
+{
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
+
+    int turnaroundTime = 0; //turnaround time of process
+    int numberOfPCBs = filepcbs.size();
+    int counter = 0; //timer
+    bool done = false; //determines when scheduler is finished
+    vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
+    int timeQuantum = 0;
+    int quantumRemaining = 0;
+    pcb* tempPCB = new pcb;
+    bool found = false;
+
+    int queueCount = 0;///how many queues there are
+    cout << "How many queues do you want?: ";
+    cin >> queueCount;
+    cout << endl;
+    int currentQueue = queueCount; ///CURRENT QUEUE
+
+    int queueNum = 0;
+    vector <int> storeAllot;//stores time allotment for each queue
+    while (queueNum < queueCount)
+    {
+        cout << "Enter time allotment for queue " << queueNum + 1 << ": ";
+        cin >> timeQuantum;
+        storeAllot.push_back(timeQuantum);
+        queueNum++;
+    }
+    cout << endl;
+
+    int remainingCycles = 0;
+    cout << "How many cycles before round robin?: ";
+    cin >> remainingCycles;
+    cout << endl;
+
+    for (int i = 0; i < filepcbs.size();i++)
+    {
+        filepcbs[i] -> priority = queueCount;
+    }
+
+    quantumRemaining = storeAllot[currentQueue - 1];
+    while (!done)
+    {
+        if (ready.queueSize == 0 && filepcbs.size() == 0)
+        {
+            cout << "All processes have completed!" << endl;
+            done = true;
+        }
+
+        if (filepcbs[0] -> timeOfArrival == counter)
+        {
+            ready.addPCB(filepcbs[0]);
+            cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+            filepcbs.erase(filepcbs.begin()+0);
+
+            if (ready.queueSize == numberOfPCBs)
+            {
+                printReady();
+            }
+        }
+
+        if (ready.queueSize != 0)
+        {
+            while (remainingCycles > 0)
+            {
+                while (quantumRemaining > 0)
+                {
+                    if (filepcbs[0] -> timeOfArrival == counter)
+                    {
+                        ready.addPCB(filepcbs[0]);
+                        cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                        filepcbs.erase(filepcbs.begin()+0);
+
+                        if (ready.queueSize == numberOfPCBs)
+                        {
+                            printReady();
+                        }
+                    }
+
+                    for (int i = 0; i < ready.queueSize; i++)
+                    {
+                        if (ready.heldItems[i] -> priority == currentQueue && !found)
+                        {
+                            ready.heldItems[i] -> timeRemaining = ready.heldItems[i] -> timeRemaining--;
+                            if (ready.heldItems[i] -> timeRemaining == 0)
+                            {
+                                cout << ready.heldItems[i] -> processName << " completed" << endl;
+                                turnaroundTime = counter - ready.heldItems[i] -> timeOfArrival;
+                                storeTurnaround.push_back(turnaroundTime);
+                                ready.deletePCB(ready.heldItems[i]);
+                            }
+                            cout << ready.heldItems[i] -> processName << " " << ready.heldItems[i] -> timeRemaining << " "
+                               << ready.heldItems[i] -> priority << endl;
+                            tempPCB = ready.heldItems[i];
+                            ready.deletePCB(tempPCB);
+                            ready.addPCB(tempPCB);
+                            break;
+                            found = true;
+                        }
+                    }
+                    found = false;
+                    counter++;
+                    quantumRemaining--;
+                    cout << "QR " << quantumRemaining << endl;
+                }
+
+                for (int i = 0; i < ready.queueSize; i++)
+                {
+                    if (ready.heldItems[i] -> priority == currentQueue)
+                    {
+                        ready.heldItems[i] -> priority = ready.heldItems[i] -> priority - 1;
+                        if (ready.heldItems[i] -> priority < 0)
+                        {
+                            ready.heldItems[i] -> priority = 0;
+                        }
+                    }
+                }
+
+                currentQueue--;
+                cout << "QUEUE CHANGE" << endl;
+                if (currentQueue == 0)
+                {
+                    currentQueue = queueCount;
+                    cout << "CYCLE CHANGE" << endl;
+                    remainingCycles--;
+                }
+                quantumRemaining = storeAllot[currentQueue - 1];
+
+            }
+
+            cout << "WOO HOO!!! CYCLES FINISHED!!!" << endl;
+            return;
+            break;
+        }
+
+        //counter++;
+    }
+
+    return;
 
 }
 

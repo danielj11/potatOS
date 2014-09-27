@@ -10,6 +10,7 @@ void FIFOTestDriver();
 void STCFTestDriver();
 void priorityTestDriver();
 void roundRobinTestDriver();
+void MLFQTestDriver();
 
 int main()
 {
@@ -26,7 +27,8 @@ int main()
     //FIFOTestDriver();
     //STCFTestDriver();
     //priorityTestDriver();
-    roundRobinTestDriver();
+    //roundRobinTestDriver();
+    MLFQTestDriver();
 
     return 0;
 }
@@ -77,29 +79,35 @@ void PCBTestDriver()
 void SJFTestDriver()
 {
     controller testController;
-    testController.shortestJobFirstFK();
+    testController.SJF();
 }
 
 void FIFOTestDriver()
 {
     controller testController;
-    testController.firstInFirstOut();
+    testController.FIFO();
 }
 
 void STCFTestDriver()
 {
     controller testController;
-    testController.shortestTimeToCompletion();
+    testController.STCF();
 }
 
 void priorityTestDriver()
 {
     controller testController;
-    testController.fixedPriority();
+    testController.FPPS();
 }
 
 void roundRobinTestDriver()
 {
     controller testController;
-    testController.roundRobin();
+    testController.RR();
+}
+
+void MLFQTestDriver()
+{
+    controller testController;
+    testController.MLFQ();
 }
