@@ -20,15 +20,15 @@ int main()
     exitTestDriver();
     PCBTestDriver();*/
 
-    /*controller myController;
-    myController.runSim();*/
+    controller myController;
+    myController.runSim();
 
     //SJFTestDriver();
     //FIFOTestDriver();
     //STCFTestDriver();
     //priorityTestDriver();
     //roundRobinTestDriver();
-    MLFQTestDriver();
+    //MLFQTestDriver();
 
     return 0;
 }

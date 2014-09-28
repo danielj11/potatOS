@@ -36,14 +36,18 @@ public:
     void freePCB(pcb* pcbToFree);
     pcb* createProcess(string name, char pcbClass, int pcbPri,int mem, int timeR, int timeA, int percent);
     void printReady();
+
     bool readFile();
-    void SJF(); //shortest job first - full knowledge
-    void FIFO(); //First in first out
-    void STCF(); //shortest time to completion first
-    void FPPS();//fixed priority pre-emptive scheduling
-    void RR();
-    void MLFQ();
+    void SJF(); //shortest job first scheduler - full knowledge
+    void FIFO(); //First in first out scheduler
+    void STCF(); //shortest time to completion first scheduler
+    void FPPS();//fixed priority pre-emptive scheduler
+    void RR(); //round robin scheduler
+    void MLFQ(); //multi-leveled feedback queue scheduler
     void LS();
+    void printScheduleMenu();
+    void runScheduleFunctions();
+    void resetSchedulers();
 
     pcb* runningPCB;
     pcbQueue ready;
@@ -54,6 +58,7 @@ public:
 private:
     char userChoice;
     int userPCBChoice;
+    int userScheduleChoice;
     bool exitFlag;
 };
 

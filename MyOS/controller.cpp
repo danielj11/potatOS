@@ -18,7 +18,8 @@ void controller::printMenu()//prints menu of choices for user to choose from
     cout << "3. Directory" << endl;
     cout << "4. Help" << endl;
     cout << "5. PCB Menu" << endl;
-    cout << "6. Exit" << endl;
+    cout << "6. Scheduler Menu"  << endl;
+    cout << "7. Exit" << endl;
     cout << "----------" << endl;
     cout << "Enter the corresponding number for what you want to do: ";
     cin >> userChoice;
@@ -32,23 +33,37 @@ void controller::printPCBMenu()//prints menu of choices for user to choose from
 {
     cout << "~~~PCB MENU~~~" << endl;
     cout << "--------------" << endl;
-    cout << "1. Create PCB" << endl;
-    cout << "2. Delete PCB" << endl;
-    cout << "3. Block" << endl;
-    cout << "4. Unblock" << endl;
-    cout << "5. Suspend" << endl;
-    cout << "6. Resume" << endl;
-    cout << "7. Set priority" << endl;
-    cout << "8. Show PCB" << endl;
-    cout << "9. Show All" << endl;
-    cout << "10. Show Ready" << endl;
-    cout << "11. Show Blocked" << endl;
+    cout << "1. Suspend" << endl;
+    cout << "2. Resume" << endl;
+    cout << "3. Set priority" << endl;
+    cout << "4. Show PCB" << endl;
+    cout << "5. Show All" << endl;
+    cout << "6. Show Ready" << endl;
+    cout << "7. Show Blocked" << endl;
     cout << "--------------" << endl;
     cout << "Enter the corresponding number for what you want to do: ";
     cin >> userPCBChoice;
     cout << endl;
 
     return;
+}
+
+
+void controller::printScheduleMenu()
+{
+    cout << "~SCHEDULER MENU~" << endl;
+    cout << "----------------" << endl;
+    cout << "1. SJF" << endl;
+    cout << "2. FIFO" << endl;
+    cout << "3. STCF" << endl;
+    cout << "4. FPPS" << endl;
+    cout << "5. RR" << endl;
+    cout << "6. MLFQ" << endl;
+    cout << "7. LS" << endl;
+    cout << "----------------" << endl;
+    cout << "Enter the corresponding number for what you want to do: ";
+    cin >> userScheduleChoice;
+    cout << endl;
 }
 
 
@@ -116,6 +131,13 @@ void controller::runSim() //runs the simulation
             }
         case '6':
             {
+            printScheduleMenu();
+            runScheduleFunctions();
+            waitForInput();
+            break;
+            }
+        case '7':
+            {
             exitSim myExit;
             exitFlag = myExit.escapeSim();
             waitForInput();
@@ -129,11 +151,11 @@ void controller::runSim() //runs the simulation
 }
 
 
-void controller::runPCBFunctions()
+void controller::runPCBFunctions() //runs PCB functions
 {
     switch (userPCBChoice)
     {
-    case 1://CreatePCB
+    /*case 1://CreatePCB
         {
             string nameOfProcess = "";
             int userPriority = -130;
@@ -279,8 +301,8 @@ void controller::runPCBFunctions()
             }
 
             break;
-        }
-    case 5://Suspend
+        }*/
+    case 1://Suspend
         {
             int position = 0;
             string pcbToSuspend;
@@ -332,7 +354,7 @@ void controller::runPCBFunctions()
 
             break;
         }
-    case 6://Resume
+    case 2://Resume
         {
             int position = 0;
             string pcbToResume;
@@ -383,7 +405,7 @@ void controller::runPCBFunctions()
 
             break;
         }
-    case 7://Set priority
+    case 3://Set priority
         {
             string processToChange;
             int newPriority = 999;
@@ -454,7 +476,7 @@ void controller::runPCBFunctions()
 
             break;
         }
-    case 8://Show PCB
+    case 4://Show PCB
         {
             string showName;
 
@@ -481,7 +503,7 @@ void controller::runPCBFunctions()
             }
             break;
         }
-    case 9://Show all
+    case 5://Show all
         {
             cout << "Ready queue contains: " << endl;
             for (int i = 0; i < ready.queueSize; i++)
@@ -574,7 +596,7 @@ void controller::runPCBFunctions()
             }
             break;
         }
-    case 10://Show ready
+    case 6://Show ready
         {
             cout << "Ready queue contains: " << endl;
             for (int i = 0; i < ready.queueSize; i++)
@@ -602,7 +624,7 @@ void controller::runPCBFunctions()
             cout << endl;
             break;
         }
-    case 11://Show blocked
+    case 7://Show blocked
         {
             cout << "Blocked queue contains: " << endl;
             for (int i = 0; i < blocked.queueSize; i++)
@@ -631,6 +653,63 @@ void controller::runPCBFunctions()
         {
             cout << "Not a valid input" << endl;
         }
+    }
+
+    return;
+}
+
+
+void controller::runScheduleFunctions() //runs scheduling functions
+{
+    switch(userScheduleChoice)
+    {
+    case 1:
+        {
+            SJF();
+            resetSchedulers();
+            break;
+        }
+    case 2:
+        {
+            FIFO();
+            resetSchedulers();
+            break;
+        }
+    case 3:
+        {
+            STCF();
+            resetSchedulers();
+            break;
+        }
+    case 4:
+        {
+            FPPS();
+            resetSchedulers();
+            break;
+        }
+    case 5:
+        {
+            RR();
+            resetSchedulers();
+            break;
+        }
+    case 6:
+        {
+            MLFQ();
+            resetSchedulers();
+            break;
+        }
+    case 7:
+        {
+            LS();
+            resetSchedulers();
+            break;
+        }
+    default:
+        {
+            cout << "Not a valid input!" << endl;
+        }
+
     }
 
     return;
@@ -857,7 +936,7 @@ pcb* controller::createProcess(string name, char pcbClass, int pcbPriority, int 
 }
 
 
-void controller::printReady()
+void controller::printReady() //prints ready queue for scheduler functions
 {
     cout << endl << "Ready queue contains: " << endl;
     cout << "Name - Time Remaining" << endl;
@@ -879,7 +958,7 @@ void controller::printReady()
 }
 
 
-bool controller::readFile()
+bool controller::readFile() //reads in file for use in schedulers
 {
     string wordString;
     string userFile; //Stores user's file name
@@ -916,24 +995,18 @@ bool controller::readFile()
             switch (counter)
             {
             case 1://name
-                //cout << wordString << endl;
                 newName = wordString;
-                cout << newName << endl;
                 break;
             case 2://class
-                //cout << wordString << endl;
                 newClass = wordString[0];
                 break;
             case 3://priority
-                //cout << wordString << endl;
                 newPriority = atoi(wordString.c_str());
                 break;
             case 4://memory
-                //cout << wordString << endl;
                 newMemory = atoi(wordString.c_str());
                 break;
             case 5://time remaining
-                //cout << wordString << endl;
                 remaining = atoi(wordString.c_str());
                 break;
             case 6://time of arrival
@@ -941,7 +1014,6 @@ bool controller::readFile()
                 arrival = atoi(wordString.c_str());
                 break;
             case 7://percentage of CPU
-                //cout << wordString << endl;
                 newPercent = atoi(wordString.c_str());
                 break;
             default:
@@ -963,7 +1035,16 @@ bool controller::readFile()
 }
 
 
-//runs processes using shortest job first schedule with full knowledgeof all processes
+void controller::resetSchedulers() //resets ready queue
+{
+    filepcbs.clear();
+    ready.heldItems.clear();
+    ready.head = NULL;
+    ready.tail = NULL;
+}
+
+
+//runs processes using shortest job first schedule with full knowledge of all processes
 void controller::SJF()
 {
     if(!readFile())//read in file
@@ -1035,13 +1116,14 @@ void controller::SJF()
 
     //Calculate and print average turnaround time
     turnaroundTime = turnaroundTime / storeTurnaround.size();
-    cout << "Total time to completion: " << completionTime << endl;
-    cout << "Average Turnaround Time: " << turnaroundTime << endl;
+    cout << endl << "Total time to completion: " << completionTime << endl;
+    cout << "Average Turnaround Time: " << turnaroundTime << endl << endl;
 
     return;
 }
 
 
+//runs processes using first in first out scheduler
 void controller::FIFO()
 {
     if(!readFile())//read in file
@@ -1101,11 +1183,13 @@ void controller::FIFO()
     //Calculate and print average turnaround time
     turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-    cout << "Completion Time: " << counter << endl;
-    cout << "Average Turnaround Time: " << turnaroundTime << endl;
+    cout << endl << "Completion Time: " << counter << endl;
+    cout << "Average Turnaround Time: " << turnaroundTime << endl << endl;
 
 }
 
+
+//runs processes using shortest time to completion first scheduler
 void controller::STCF()
 {
     if(!readFile())//read in file
@@ -1190,9 +1274,9 @@ void controller::STCF()
                 }
                 turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-                cout << "All processes have completed!!!" << endl;
+                cout << endl << "All processes have completed!!!" << endl;
                 cout << "Total completion time: " << counter << endl;
-                cout << "Average turnaround time: " << turnaroundTime << endl;
+                cout << "Average turnaround time: " << turnaroundTime << endl << endl;
 
                 done = true;
             }
@@ -1202,6 +1286,8 @@ void controller::STCF()
     return;
 }
 
+
+//runs processes using Fixed Priority Pre-Emptive Scheduling
 void controller::FPPS()
 {
     if(!readFile())//read in file
@@ -1286,9 +1372,9 @@ void controller::FPPS()
                 }
                 turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-                cout << "All processes have completed!!!" << endl;
+                cout << endl << "All processes have completed!!!" << endl;
                 cout << "Total completion time: " << counter << endl;
-                cout << "Average turnaround time: " << turnaroundTime << endl;
+                cout << "Average turnaround time: " << turnaroundTime << endl << endl;
 
                 done = true;
             }
@@ -1298,6 +1384,8 @@ void controller::FPPS()
     return;
 }
 
+
+//runs processes using round robin scheduling
 void controller::RR()
 {
     if(!readFile())//read in file
@@ -1321,7 +1409,7 @@ void controller::RR()
 
     quantumRemaining = timeQuantum;
 
-    while (!done)
+    while (!done) //while there arte still processes to run
     {
         if (ready.queueSize == 0 && filepcbs.size() == 0)
         {
@@ -1349,7 +1437,7 @@ void controller::RR()
                 quantumRemaining--;
             }
 
-            if (ready.heldItems[0] -> timeRemaining == 0)
+            if (ready.heldItems[0] -> timeRemaining == 0) //remove process if finished
             {
                 cout << ready.heldItems[0] -> processName << " completed" << endl;
                 turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
@@ -1365,16 +1453,28 @@ void controller::RR()
                 ready.addPCB(tempPCB);
                 quantumRemaining = timeQuantum;
             }
-
-
         }
 
         counter++;
     }
 
+    //calculate and print total completion time and average turnaround time
+    turnaroundTime = 0;
+    for (int i = 0; i < storeTurnaround.size(); i++)
+    {
+        turnaroundTime = turnaroundTime + storeTurnaround[i];
+    }
+    turnaroundTime = turnaroundTime / storeTurnaround.size();
+
+    cout << endl << "All processes have completed!!!" << endl;
+    cout << "Total completion time: " << counter << endl;
+    cout << "Average turnaround time: " << turnaroundTime << endl << endl;
+
     return;
 }
 
+
+//runs processes using Multilevel Feedback Queue scheduling
 void controller::MLFQ()
 {
     if(!readFile())//read in file
@@ -1388,19 +1488,21 @@ void controller::MLFQ()
     int counter = 0; //timer
     bool done = false; //determines when scheduler is finished
     vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
-    int timeQuantum = 0;
-    int quantumRemaining = 0;
-    pcb* tempPCB = new pcb;
-    bool found = false;
+    int timeQuantum = 0; //time quantum for current queue
+    int quantumRemaining = 0; //hoe long until current time quantum is over
+    pcb* tempPCB = new pcb; //temporary pcb
+    int position = -1; //used to find location of processes in ready queue
+    int queueCount = 0;//how many queues there are
+    int currentQueue = 0; //what queue is active
+    int queueNum = 0; //used to store numbers in storeAllot
+    vector <int> storeAllot;//stores time allotment for each queue
+    int remainingCycles = 0; //how many cycles are left until round robin begins
 
-    int queueCount = 0;///how many queues there are
     cout << "How many queues do you want?: ";
     cin >> queueCount;
     cout << endl;
-    int currentQueue = queueCount; ///CURRENT QUEUE
+    currentQueue = queueCount;
 
-    int queueNum = 0;
-    vector <int> storeAllot;//stores time allotment for each queue
     while (queueNum < queueCount)
     {
         cout << "Enter time allotment for queue " << queueNum + 1 << ": ";
@@ -1410,7 +1512,6 @@ void controller::MLFQ()
     }
     cout << endl;
 
-    int remainingCycles = 0;
     cout << "How many cycles before round robin?: ";
     cin >> remainingCycles;
     cout << endl;
@@ -1425,7 +1526,7 @@ void controller::MLFQ()
     {
         if (ready.queueSize == 0 && filepcbs.size() == 0)
         {
-            cout << "All processes have completed!" << endl;
+            cout << endl << "All processes have completed!" << endl;
             done = true;
         }
 
@@ -1445,6 +1546,30 @@ void controller::MLFQ()
         {
             while (remainingCycles > 0)
             {
+                while (position == -1)
+                {
+                    for (int i = 0; i < ready.queueSize; i++) //look for a PCB that's in current queue
+                    {
+                        if (ready.heldItems[i] -> priority == currentQueue)
+                        {
+                            cout << "New Position is " << i << endl;
+                            position = i;
+                        }
+                    }
+
+                    if (position == -1) //change queues if current one has no processes
+                    {
+                        currentQueue = currentQueue - 1;
+                        if (currentQueue == 0)
+                        {
+                            currentQueue = queueCount;
+                            cout << "CYCLE CHANGE" << endl;
+                            remainingCycles--;
+                        }
+                        quantumRemaining = storeAllot[currentQueue - 1];
+                    }
+                }
+
                 while (quantumRemaining > 0)
                 {
                     if (filepcbs[0] -> timeOfArrival == counter)
@@ -1459,67 +1584,94 @@ void controller::MLFQ()
                         }
                     }
 
-                    for (int i = 0; i < ready.queueSize; i++)
+                    ready.heldItems[position] -> timeRemaining = ready.heldItems[position] -> timeRemaining - 1;
+                    if (ready.heldItems[position] -> timeRemaining == 0)
                     {
-                        if (ready.heldItems[i] -> priority == currentQueue && !found)
-                        {
-                            ready.heldItems[i] -> timeRemaining = ready.heldItems[i] -> timeRemaining--;
-                            if (ready.heldItems[i] -> timeRemaining == 0)
-                            {
-                                cout << ready.heldItems[i] -> processName << " completed" << endl;
-                                turnaroundTime = counter - ready.heldItems[i] -> timeOfArrival;
-                                storeTurnaround.push_back(turnaroundTime);
-                                ready.deletePCB(ready.heldItems[i]);
-                            }
-                            cout << ready.heldItems[i] -> processName << " " << ready.heldItems[i] -> timeRemaining << " "
-                               << ready.heldItems[i] -> priority << endl;
-                            tempPCB = ready.heldItems[i];
-                            ready.deletePCB(tempPCB);
-                            ready.addPCB(tempPCB);
-                            break;
-                            found = true;
-                        }
+                        cout << ready.heldItems[position] -> processName << "has completed!" << endl;
+                        turnaroundTime = counter - ready.heldItems[position] -> timeOfArrival;
+                        storeTurnaround.push_back(turnaroundTime);
+                        ready.deletePCB(ready.heldItems[position]);
                     }
-                    found = false;
                     counter++;
                     quantumRemaining--;
-                    cout << "QR " << quantumRemaining << endl;
                 }
 
-                for (int i = 0; i < ready.queueSize; i++)
+                //reduce priority of current process and move it to bottom of queue
+                ready.heldItems[position] -> priority = ready.heldItems[position] -> priority - 1;
+
+                if (ready.heldItems[position] -> priority < 0)
                 {
-                    if (ready.heldItems[i] -> priority == currentQueue)
-                    {
-                        ready.heldItems[i] -> priority = ready.heldItems[i] -> priority - 1;
-                        if (ready.heldItems[i] -> priority < 0)
-                        {
-                            ready.heldItems[i] -> priority = 0;
-                        }
-                    }
+                    ready.heldItems[position] -> priority = 0;
                 }
 
-                currentQueue--;
-                cout << "QUEUE CHANGE" << endl;
+                tempPCB = ready.heldItems[position];
+                ready.deletePCB(tempPCB);
+                ready.addPCB(tempPCB);
+
+                currentQueue--; //change queue
                 if (currentQueue == 0)
                 {
                     currentQueue = queueCount;
-                    cout << "CYCLE CHANGE" << endl;
                     remainingCycles--;
                 }
                 quantumRemaining = storeAllot[currentQueue - 1];
 
+                position = -1;
+
+            } //cycles are completed
+
+            ///since cycles are completed, use standard round robin on all remaining processes
+            if (ready.queueSize != 0)
+            {
+                if (quantumRemaining > 0)
+                {
+                    ready.heldItems[0] -> timeRemaining = ready.heldItems[0] -> timeRemaining - 1;
+                    quantumRemaining--;
+                }
+
+                if (ready.heldItems[0] -> timeRemaining == 0) //remove process if finished
+                {
+                    cout << ready.heldItems[0] -> processName << " has completed!" << endl;
+
+                    turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
+                    storeTurnaround.push_back(turnaroundTime);
+                    ready.deletePCB(ready.heldItems[0]);
+                    quantumRemaining = storeAllot[storeAllot.size()-1];
+                }
+
+                if (quantumRemaining == 0)
+                {
+                    tempPCB = ready.heldItems[0];
+                    ready.deletePCB(tempPCB);
+                    ready.addPCB(tempPCB);
+                    quantumRemaining = timeQuantum;
+                }
+
+                counter++;
             }
-
-            cout << "WOO HOO!!! CYCLES FINISHED!!!" << endl;
-            return;
-            break;
         }
-
-        //counter++;
     }
+
+    //calculate and print total completion time and average turnaround time
+    turnaroundTime = 0;
+    for (int i = 0; i < storeTurnaround.size(); i++)
+    {
+        turnaroundTime = turnaroundTime + storeTurnaround[i];
+    }
+    turnaroundTime = turnaroundTime / storeTurnaround.size();
+
+    cout << "Total completion time: " << counter << endl;
+    cout << "Average turnaround time: " << turnaroundTime << endl << endl;
 
     return;
 
+}
+
+
+//runs processes using lottery scheduling
+void controller::LS()
+{
+    return;
 }
 
 

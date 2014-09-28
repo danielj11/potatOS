@@ -146,10 +146,10 @@
 	<string>
 	<vector>
 
-1411783268 source:c:\users\jacob\documents\github\potatos\myos\main.cpp
+1411871852 source:c:\users\jacob\documents\github\potatos\myos\main.cpp
 	"controller.h"
 
-1411783066 c:\users\jacob\documents\github\potatos\myos\controller.h
+1411873864 c:\users\jacob\documents\github\potatos\myos\controller.h
 	<iostream>
 	<string>
 	<vector>
@@ -183,6 +183,6 @@
 1409708568 source:c:\users\jacob\documents\github\potatos\myos\version.cpp
 	"version.h"
 
-1411860312 source:c:\users\jacob\documents\github\potatos\myos\controller.cpp
+1411871837 source:c:\users\jacob\documents\github\potatos\myos\controller.cpp
 	"controller.h"
 
