@@ -15,7 +15,7 @@ bool exitSim::escapeSim() //Exits simulator
 
     if (exitChoice == "Y" || exitChoice == "y")
     {
-        cout << "Goodbye!" << endl;
+        cout << "Good-bye!" << endl;
         exit(0);
         return true;
     }

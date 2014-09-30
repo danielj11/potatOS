@@ -6,6 +6,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <fstream>
+#include <algorithm>
 
 #include "date.h"
 #include "version.h"

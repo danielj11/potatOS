@@ -2,7 +2,7 @@
 
 version::version()
 {
-    versionNum = "1.0";
+    versionNum = "1.3";
 }
 
 void version::displayVersion()

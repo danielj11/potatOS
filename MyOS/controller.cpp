@@ -49,7 +49,7 @@ void controller::printPCBMenu()//prints menu of choices for user to choose from
 }
 
 
-void controller::printScheduleMenu()
+void controller::printScheduleMenu() //prints menu of choices for user to choose from
 {
     cout << "~SCHEDULER MENU~" << endl;
     cout << "----------------" << endl;
@@ -938,7 +938,7 @@ pcb* controller::createProcess(string name, char pcbClass, int pcbPriority, int 
 
 void controller::printReady() //prints ready queue for scheduler functions
 {
-    cout << endl << "Ready queue contains: " << endl;
+    cout << "Ready queue contains: " << endl;
     cout << "Name - Time Remaining" << endl;
     for (int i = 0; i < ready.queueSize; i++)
     {
@@ -1041,6 +1041,9 @@ void controller::resetSchedulers() //resets ready queue
     ready.heldItems.clear();
     ready.head = NULL;
     ready.tail = NULL;
+    blocked.heldItems.clear();
+    blocked.head = NULL;
+    blocked.tail = NULL;
 }
 
 
@@ -1053,13 +1056,15 @@ void controller::SJF()
         return;
     }
 
+    ofstream outFile;
+    outFile.open("SJF.txt");
+
     int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
     int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
     int position = 0;
     int numberOfPCBs = filepcbs.size();
     vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
-
     while (ready.queueSize != numberOfPCBs)//while there are more pcbs in the file than are in ready queue
     {
         for (int i = 0; i < filepcbs.size(); i++)
@@ -1071,35 +1076,19 @@ void controller::SJF()
                 position = i;
             }
         }
-
+        //cout << filepcbs[position] -> processName << " has entered the system!" << endl;
+        outFile << filepcbs[position] -> processName << " has entered the system!" << endl;
         ready.addPCB(filepcbs[position]);
         filepcbs.erase(filepcbs.begin() + position);//delete same PCB from filepcbs
         position = 0;
         shortestTimeRemaining = filepcbs[0] -> timeRemaining;
     }
-
-        cout << "Ready queue contains: " << endl;
-
-
-    cout << "Process Name - Time Remaining" << endl;
-
-    for (int i = 0; i < ready.queueSize; i++)
-    {
-        if (ready.heldItems[i] == NULL)
-        {
-            cout << "PCB could not be found!" << endl;
-        }
-        else
-        {
-            cout << ready.heldItems[i] -> processName << " - " << ready.heldItems[i] -> timeRemaining << endl;
-        }
-    }
-
+    printReady();
     cout << endl;
 
     while (ready.queueSize != 0)
     {
-        cout << ready.heldItems[0]-> processName << " is completed!" << endl;
+        outFile << ready.heldItems[0]-> processName << " is completed!" << endl;
         completionTime = completionTime + ready.heldItems[0]-> timeRemaining;
         turnaroundTime = completionTime - ready.heldItems[0]->timeOfArrival;
         storeTurnaround.push_back(turnaroundTime);
@@ -1107,21 +1096,23 @@ void controller::SJF()
         ready.queueSize = ready.heldItems.size();
     }
 
-    turnaroundTime = 0;
+    cout << "All processes have completed!" << endl;
+    cout << "Check file for details!" << endl << endl;
 
+    turnaroundTime = 0;
     for (int i = 0; i < storeTurnaround.size(); i++)
     {
         turnaroundTime = turnaroundTime + storeTurnaround[i];
     }
-
     //Calculate and print average turnaround time
     turnaroundTime = turnaroundTime / storeTurnaround.size();
-    cout << endl << "Total time to completion: " << completionTime << endl;
-    cout << "Average Turnaround Time: " << turnaroundTime << endl << endl;
+    outFile << endl << "Total time to completion: " << completionTime << endl;
+    outFile << "Average Turnaround Time: " << turnaroundTime << endl;
+
+    outFile.close();
 
     return;
 }
-
 
 //runs processes using first in first out scheduler
 void controller::FIFO()
@@ -1131,6 +1122,9 @@ void controller::FIFO()
         cout << "File not found!!!" << endl;
         return;
     }
+
+    ofstream outFile;
+    outFile.open("FIFO.txt");
 
     int turnaroundTime = 0; //turnaround time of process
     int numberOfPCBs = filepcbs.size();
@@ -1143,7 +1137,8 @@ void controller::FIFO()
         if (filepcbs[0] -> timeOfArrival == counter)//if it's time for a process to arrive, add it to ready queue
         {
             ready.addPCB(filepcbs[0]);
-            cout << filepcbs[0] -> processName << " has entered the system!" << endl;//print process name when it enters ready queue
+            //cout << filepcbs[0] -> processName << " has entered the system!" << endl;//print process name when it enters ready queue
+            outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
             filepcbs.erase(filepcbs.begin()+0);
 
             if (ready.queueSize == numberOfPCBs) //if all pcbs are in ready queue, print its contents
@@ -1152,15 +1147,14 @@ void controller::FIFO()
             }
         }
 
-        //counter++;//add 1 to counter
-
         if (ready.heldItems.size() > 0)
         {
             ready.heldItems[0] -> timeRemaining = ready.heldItems[0] -> timeRemaining - 1; //lower time remaining by one
 
             if (ready.heldItems[0] -> timeRemaining == 0)//if process is finished
             {
-                cout << ready.heldItems[0] -> processName << " completed!" << endl;
+                //cout << ready.heldItems[0] -> processName << " has completed!" << endl;
+                outFile << ready.heldItems[0] -> processName << " has completed!" << endl;
                 turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
                 storeTurnaround.push_back(turnaroundTime);
                 turnaroundTime = 0;
@@ -1183,9 +1177,14 @@ void controller::FIFO()
     //Calculate and print average turnaround time
     turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-    cout << endl << "Completion Time: " << counter << endl;
-    cout << "Average Turnaround Time: " << turnaroundTime << endl << endl;
+    cout << "All processes have completed!" << endl;
+    cout << "Check file for details!" << endl << endl;
+    outFile << endl << "Completion Time: " << counter << endl;
+    outFile << "Average Turnaround Time: " << turnaroundTime << endl << endl;
 
+    outFile.close();
+
+    return;
 }
 
 
@@ -1197,6 +1196,9 @@ void controller::STCF()
         cout << "File not found!!!" << endl;
         return;
     }
+
+    ofstream outFile;
+    outFile.open("STCF.txt");
 
     int turnaroundTime = 0; //turnaround time of process
     int position = 0; //used to find exact lpcations of pcbs
@@ -1214,7 +1216,7 @@ void controller::STCF()
                 if (ready.queueSize == 0)
                 {
                     ready.addPCB(filepcbs[0]);
-                    cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                    outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
                     filepcbs.erase(filepcbs.begin()+0);
                 }
                 else
@@ -1222,7 +1224,7 @@ void controller::STCF()
                     if (filepcbs[0] -> timeRemaining > ready.heldItems[ready.queueSize-1] -> timeRemaining)
                     {
                         ready.addPCB(filepcbs[0]);
-                        cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                        outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
                         filepcbs.erase(filepcbs.begin()+0);
                     }
 
@@ -1235,7 +1237,7 @@ void controller::STCF()
                             if (filepcbs[0] -> timeRemaining < ready.heldItems[position] -> timeRemaining)
                             {
                                 ready.heldItems.insert(ready.heldItems.begin() + position, filepcbs[0]);
-                                cout << ready.heldItems[position] -> processName << " has entered the system!" << endl;
+                                outFile << ready.heldItems[position] -> processName << " has entered the system!" << endl;
                                 filepcbs.erase(filepcbs.begin()+0);
                                 ready.queueSize = ready.heldItems.size();
                                 inserted = true;
@@ -1258,7 +1260,7 @@ void controller::STCF()
 
         if (ready.heldItems[0] -> timeRemaining == 0)
         {
-            cout << ready.heldItems[0] -> processName << " is completed!" << endl;
+            outFile << ready.heldItems[0] -> processName << " is completed!" << endl;
 
             turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
             storeTurnaround.push_back(turnaroundTime);
@@ -1274,9 +1276,10 @@ void controller::STCF()
                 }
                 turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-                cout << endl << "All processes have completed!!!" << endl;
-                cout << "Total completion time: " << counter << endl;
-                cout << "Average turnaround time: " << turnaroundTime << endl << endl;
+                cout << "All processes have completed!!!" << endl;
+                cout << "Check file for details!" << endl << endl;
+                outFile << endl<< "Total completion time: " << counter << endl;
+                outFile << "Average turnaround time: " << turnaroundTime << endl << endl;
 
                 done = true;
             }
@@ -1296,6 +1299,9 @@ void controller::FPPS()
         return;
     }
 
+    ofstream outFile;
+    outFile.open("FPPS.txt");
+
     int turnaroundTime = 0; //turnaround time of process
     int position = 0; //used to find exact lpcations of pcbs
     int numberOfPCBs = filepcbs.size();
@@ -1312,7 +1318,7 @@ void controller::FPPS()
                 if (ready.queueSize == 0)
                 {
                     ready.addPCB(filepcbs[0]);
-                    cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                    outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
                     filepcbs.erase(filepcbs.begin()+0);
                 }
                 else
@@ -1320,7 +1326,7 @@ void controller::FPPS()
                     if (filepcbs[0] -> priority < ready.heldItems[ready.queueSize-1] -> priority)
                     {
                         ready.addPCB(filepcbs[0]);
-                        cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                        outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
                         filepcbs.erase(filepcbs.begin()+0);
                     }
 
@@ -1333,7 +1339,7 @@ void controller::FPPS()
                             if (filepcbs[0] -> priority > ready.heldItems[position] -> priority)
                             {
                                 ready.heldItems.insert(ready.heldItems.begin() + position, filepcbs[0]);
-                                cout << ready.heldItems[position] -> processName << " has entered the system!" << endl;
+                                outFile << ready.heldItems[position] -> processName << " has entered the system!" << endl;
                                 filepcbs.erase(filepcbs.begin()+0);
                                 ready.queueSize = ready.heldItems.size();
                                 inserted = true;
@@ -1356,7 +1362,7 @@ void controller::FPPS()
 
         if (ready.heldItems[0] -> timeRemaining == 0)
         {
-            cout << ready.heldItems[0] -> processName << " is completed!" << endl;
+            outFile << ready.heldItems[0] -> processName << " is completed!" << endl;
 
             turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
             storeTurnaround.push_back(turnaroundTime);
@@ -1372,14 +1378,17 @@ void controller::FPPS()
                 }
                 turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-                cout << endl << "All processes have completed!!!" << endl;
-                cout << "Total completion time: " << counter << endl;
-                cout << "Average turnaround time: " << turnaroundTime << endl << endl;
+                cout << "All processes have completed!!!" << endl;
+                cout << "Check file for details!" << endl << endl;
+                outFile << endl << "Total completion time: " << counter << endl;
+                outFile << "Average turnaround time: " << turnaroundTime << endl << endl;
 
                 done = true;
             }
         }
     }
+
+    outFile.close();
 
     return;
 }
@@ -1393,6 +1402,9 @@ void controller::RR()
         cout << "File not found!!!" << endl;
         return;
     }
+
+    ofstream outFile;
+    outFile.open("RR.txt");
 
     int turnaroundTime = 0; //turnaround time of process
     int numberOfPCBs = filepcbs.size();
@@ -1414,13 +1426,14 @@ void controller::RR()
         if (ready.queueSize == 0 && filepcbs.size() == 0)
         {
             cout << "All processes have completed!" << endl;
+            cout << "Check file for details!" << endl << endl;
             done = true;
         }
 
         if (filepcbs[0] -> timeOfArrival == counter)
         {
             ready.addPCB(filepcbs[0]);
-            cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+            outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
             filepcbs.erase(filepcbs.begin()+0);
 
             if (ready.queueSize == numberOfPCBs)
@@ -1439,7 +1452,7 @@ void controller::RR()
 
             if (ready.heldItems[0] -> timeRemaining == 0) //remove process if finished
             {
-                cout << ready.heldItems[0] -> processName << " completed" << endl;
+                outFile << ready.heldItems[0] -> processName << " completed" << endl;
                 turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
                 storeTurnaround.push_back(turnaroundTime);
                 ready.deletePCB(ready.heldItems[0]);
@@ -1466,9 +1479,10 @@ void controller::RR()
     }
     turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-    cout << endl << "All processes have completed!!!" << endl;
-    cout << "Total completion time: " << counter << endl;
-    cout << "Average turnaround time: " << turnaroundTime << endl << endl;
+    outFile << endl << "Total completion time: " << counter << endl;
+    outFile << "Average turnaround time: " << turnaroundTime << endl << endl;
+
+    outFile.close();
 
     return;
 }
@@ -1482,6 +1496,9 @@ void controller::MLFQ()
         cout << "File not found!!!" << endl;
         return;
     }
+
+    ofstream outFile;
+    outFile.open("MLFQ.txt");
 
     int turnaroundTime = 0; //turnaround time of process
     int numberOfPCBs = filepcbs.size();
@@ -1526,14 +1543,15 @@ void controller::MLFQ()
     {
         if (ready.queueSize == 0 && filepcbs.size() == 0)
         {
-            cout << endl << "All processes have completed!" << endl;
+            cout << "All processes have completed!" << endl;
+            cout << "Check file for details!" << endl << endl;
             done = true;
         }
 
         if (filepcbs[0] -> timeOfArrival == counter)
         {
             ready.addPCB(filepcbs[0]);
-            cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+            outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
             filepcbs.erase(filepcbs.begin()+0);
 
             if (ready.queueSize == numberOfPCBs)
@@ -1552,7 +1570,7 @@ void controller::MLFQ()
                     {
                         if (ready.heldItems[i] -> priority == currentQueue)
                         {
-                            cout << "New Position is " << i << endl;
+                            //cout << "New Position is " << i << endl;
                             position = i;
                         }
                     }
@@ -1563,7 +1581,7 @@ void controller::MLFQ()
                         if (currentQueue == 0)
                         {
                             currentQueue = queueCount;
-                            cout << "CYCLE CHANGE" << endl;
+                            //cout << "CYCLE CHANGE" << endl;
                             remainingCycles--;
                         }
                         quantumRemaining = storeAllot[currentQueue - 1];
@@ -1575,7 +1593,7 @@ void controller::MLFQ()
                     if (filepcbs[0] -> timeOfArrival == counter)
                     {
                         ready.addPCB(filepcbs[0]);
-                        cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                        outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
                         filepcbs.erase(filepcbs.begin()+0);
 
                         if (ready.queueSize == numberOfPCBs)
@@ -1587,7 +1605,7 @@ void controller::MLFQ()
                     ready.heldItems[position] -> timeRemaining = ready.heldItems[position] -> timeRemaining - 1;
                     if (ready.heldItems[position] -> timeRemaining == 0)
                     {
-                        cout << ready.heldItems[position] -> processName << "has completed!" << endl;
+                        outFile << ready.heldItems[position] -> processName << "has completed!" << endl;
                         turnaroundTime = counter - ready.heldItems[position] -> timeOfArrival;
                         storeTurnaround.push_back(turnaroundTime);
                         ready.deletePCB(ready.heldItems[position]);
@@ -1631,7 +1649,7 @@ void controller::MLFQ()
 
                 if (ready.heldItems[0] -> timeRemaining == 0) //remove process if finished
                 {
-                    cout << ready.heldItems[0] -> processName << " has completed!" << endl;
+                    outFile << ready.heldItems[0] -> processName << " has completed!" << endl;
 
                     turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
                     storeTurnaround.push_back(turnaroundTime);
@@ -1660,8 +1678,10 @@ void controller::MLFQ()
     }
     turnaroundTime = turnaroundTime / storeTurnaround.size();
 
-    cout << "Total completion time: " << counter << endl;
-    cout << "Average turnaround time: " << turnaroundTime << endl << endl;
+    outFile << endl << "Total completion time: " << counter << endl;
+    outFile << "Average turnaround time: " << turnaroundTime << endl << endl;
+
+    outFile.close();
 
     return;
 
@@ -1671,6 +1691,160 @@ void controller::MLFQ()
 //runs processes using lottery scheduling
 void controller::LS()
 {
+    if(!readFile())//read in file
+    {
+        cout << "File not found!!!" << endl;
+        return;
+    }
+
+    ofstream outFile;
+    outFile.open("LS.txt");
+
+    int turnaroundTime = 0; //turnaround time of process
+    int counter = 0; //timer
+    bool done = false; //determines when scheduler is finished
+    vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
+    int userTickets = 0; //used to store number of tickets the user wants
+    int totalTickets = 0; //how many tickets the current processes have
+    int timeQuantum = 50; //how long the time quantum lasts
+    int quantumRemaining = timeQuantum; //how long until time quantum is over
+    int currentTicket = 0; //used to find process in ready queue
+    int position = 0; //position of process in ready queue
+
+    cout << "Enter the number of tickets: ";
+    cin >> userTickets;
+    cout << endl;
+
+    while (!done)
+    {
+        if (filepcbs[0] -> timeOfArrival == counter)
+        {
+            filepcbs[0] -> ticketAmount = ((filepcbs[0] -> cpuPercent) * userTickets) / 100; //calculate tickets
+
+            //cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+            outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
+
+            //if there are not enough tickets left, add process to blocked queue
+            if (filepcbs[0] -> ticketAmount + totalTickets > userTickets)
+            {
+                filepcbs[0] -> state1 = "blocked";
+                outFile << filepcbs[0] -> processName << " is blocked!" << endl;
+                blocked.addPCB(filepcbs[0]);
+                filepcbs.erase(filepcbs.begin()+0);
+            }
+
+            //if there are, add it to ready queue
+            else
+            {
+                ready.addPCB(filepcbs[0]);
+                totalTickets = totalTickets + filepcbs[0] -> ticketAmount;
+                filepcbs.erase(filepcbs.begin()+0);
+            }
+        }
+
+        int ticketChoice = rand() % totalTickets;
+
+        //find position of process in ready queue
+        currentTicket = 0;
+        for (int i = 0; i < ready.queueSize; i++)
+        {
+            currentTicket = currentTicket + ready.heldItems[0] -> ticketAmount;
+            if (currentTicket >= ticketChoice)
+            {
+                position = i;
+                break;
+            }
+        }
+
+        //outFile << ready.heldItems[position] -> processName << " is now running." << endl;
+
+        quantumRemaining = timeQuantum;
+
+        while (quantumRemaining > 0)
+        {
+            //check to see if anything in blocked queue can be added to ready
+            if (blocked.queueSize > 0 && totalTickets < userTickets)
+            {
+                for (int i = 0; i < blocked.queueSize; i++)
+                {
+                    if (blocked.heldItems[i] -> ticketAmount + totalTickets <= userTickets)
+                    {
+                        blocked.heldItems[i] -> state1 = "unblocked";
+                        outFile << blocked.heldItems[i] -> processName <<  "is unblocked!";
+                        ready.addPCB(blocked.heldItems[i]);
+                        totalTickets = totalTickets + blocked.heldItems[i] -> ticketAmount;
+                        blocked.deletePCB(blocked.heldItems[i]);
+                        break;
+                    }
+                }
+            }
+
+            ready.heldItems[position] -> timeRemaining = ready.heldItems[position] -> timeRemaining - 1;
+            counter++;
+
+            if (filepcbs[0] -> timeOfArrival == counter)
+            {
+                filepcbs[0] -> ticketAmount = ((filepcbs[0] -> cpuPercent) * userTickets) / 100; //calculate tickets
+
+                //cout << filepcbs[0] -> processName << " has entered the system!" << endl;
+                outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
+
+                //if there are not enough tickets left, add process to blocked queue
+                if (filepcbs[0] -> ticketAmount + totalTickets > userTickets)
+                {
+                    filepcbs[0] -> state1 = "blocked";
+                    //cout << filepcbs[0] -> processName << " is blocked!" << endl;
+                    outFile << filepcbs[0] -> processName << " is blocked!" << endl;
+                    blocked.addPCB(filepcbs[0]);
+                    filepcbs.erase(filepcbs.begin()+0);
+                }
+                //if there are enough, add it to ready queue
+                else
+                {
+                    ready.addPCB(filepcbs[0]);
+                    totalTickets = totalTickets + filepcbs[0] -> ticketAmount;
+                    filepcbs.erase(filepcbs.begin()+0);
+                }
+            }
+
+            ready.heldItems[position] -> timeRemaining = ready.heldItems[position] -> timeRemaining - 1;
+
+            //if current process has finished
+            if (ready.heldItems[position] -> timeRemaining == 0)
+            {
+                //cout << ready.heldItems[position] -> processName << " has completed!" << endl;
+                outFile << ready.heldItems[position] -> processName << " has completed!" << endl;
+                turnaroundTime = counter - ready.heldItems[position] -> timeOfArrival;
+                storeTurnaround.push_back(turnaroundTime);
+                totalTickets = totalTickets - ready.heldItems[position] -> ticketAmount;
+                ready.deletePCB(ready.heldItems[position]);
+                quantumRemaining = 0;
+            }
+
+            quantumRemaining--;
+        }
+
+        if (ready.queueSize == 0 && blocked.queueSize == 0 && filepcbs.size() == 0)
+        {
+            cout << "All processes have completed!" << endl;
+            cout << "Check file for details!" << endl << endl;
+            //cout << "Total time to completion: " << counter << endl;
+            outFile << "Total time to completion: " << counter << endl;
+            turnaroundTime = 0;
+
+            for (int i = 0; i < storeTurnaround.size(); i++)
+            {
+                turnaroundTime = turnaroundTime + storeTurnaround[i];
+            }
+
+            turnaroundTime = turnaroundTime / storeTurnaround.size();
+            //cout << "Average turnaround time: " << turnaroundTime << endl;
+            outFile << endl << "Average turnaround time: " << turnaroundTime << endl;
+            outFile.close();
+            done = true;
+        }
+    }
+
     return;
 }
 

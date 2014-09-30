@@ -11,6 +11,7 @@ void STCFTestDriver();
 void priorityTestDriver();
 void roundRobinTestDriver();
 void MLFQTestDriver();
+void LSTestDriver();
 
 int main()
 {
@@ -29,6 +30,7 @@ int main()
     //priorityTestDriver();
     //roundRobinTestDriver();
     //MLFQTestDriver();
+    //LSTestDriver();
 
     return 0;
 }
@@ -110,4 +112,10 @@ void MLFQTestDriver()
 {
     controller testController;
     testController.MLFQ();
+}
+
+void LSTestDriver()
+{
+    controller testController;
+    testController.LS();
 }

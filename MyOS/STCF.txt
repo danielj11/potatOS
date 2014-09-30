@@ -1,0 +1,14 @@
+Barry has entered the system!
+Kevin has entered the system!
+Bob has entered the system!
+Joe has entered the system!
+Billy has entered the system!
+Barry is completed!
+Joe is completed!
+Billy is completed!
+Bob is completed!
+Kevin is completed!
+
+Total completion time: 2360
+Average turnaround time: 1262
+

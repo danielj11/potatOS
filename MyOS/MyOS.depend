@@ -138,7 +138,7 @@
 	<string>
 	<stdlib.h>
 
-1409836841 source:c:\users\jacob\documents\github\potatos\myos\help.cpp
+1412035937 source:c:\users\jacob\documents\github\potatos\myos\help.cpp
 	"help.h"
 
 1409364226 c:\users\jacob\documents\github\potatos\myos\help.h
@@ -146,15 +146,16 @@
 	<string>
 	<vector>
 
-1411871852 source:c:\users\jacob\documents\github\potatos\myos\main.cpp
+1412035502 source:c:\users\jacob\documents\github\potatos\myos\main.cpp
 	"controller.h"
 
-1411873864 c:\users\jacob\documents\github\potatos\myos\controller.h
+1412031611 c:\users\jacob\documents\github\potatos\myos\controller.h
 	<iostream>
 	<string>
 	<vector>
 	<stdlib.h>
 	<fstream>
+	<algorithm>
 	"date.h"
 	"version.h"
 	"exit.h"
@@ -166,7 +167,7 @@
 	<iostream>
 	<string>
 
-1410205617 c:\users\jacob\documents\github\potatos\myos\pcbqueue.h
+1412033694 c:\users\jacob\documents\github\potatos\myos\pcbqueue.h
 	"pcb.h"
 	<vector>
 
@@ -177,12 +178,12 @@
 1411780486 source:c:\users\jacob\documents\github\potatos\myos\pcb.cpp
 	"pcb.h"
 
-1410213987 source:c:\users\jacob\documents\github\potatos\myos\pcbqueue.cpp
+1412033694 source:c:\users\jacob\documents\github\potatos\myos\pcbqueue.cpp
 	"pcbqueue.h"
 
-1409708568 source:c:\users\jacob\documents\github\potatos\myos\version.cpp
+1412035937 source:c:\users\jacob\documents\github\potatos\myos\version.cpp
 	"version.h"
 
-1411871837 source:c:\users\jacob\documents\github\potatos\myos\controller.cpp
+1412035752 source:c:\users\jacob\documents\github\potatos\myos\controller.cpp
 	"controller.h"
 

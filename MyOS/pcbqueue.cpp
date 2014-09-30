@@ -44,10 +44,4 @@ void pcbQueue::deletePCB(pcb* itemToDelete)
 
 pcbQueue::~pcbQueue()
 {
-    /*delete head;
-    delete tail;
-    for (int i = 0; i < heldItems.size()-1; i++)
-    {
-        delete heldItems[i];
-    }*/
 }
