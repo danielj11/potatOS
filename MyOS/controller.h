@@ -45,7 +45,7 @@ public:
     void FPPS();//fixed priority pre-emptive scheduler
     void RR(); //round robin scheduler
     void MLFQ(); //multi-leveled feedback queue scheduler
-    void LS();
+    void LS(); //lottery schedule
     void printScheduleMenu();
     void runScheduleFunctions();
     void resetSchedulers();

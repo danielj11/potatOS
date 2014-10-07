@@ -20,7 +20,6 @@ public:
     int timeRemaining;
     int timeOfArrival;
     int cpuPercent;
-    int queueNum;
     int ticketAmount;
 private:
 
