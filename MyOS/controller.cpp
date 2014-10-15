@@ -1849,6 +1849,50 @@ void controller::LS()
 }
 
 
+char controller::chooseFit()
+{
+    int userChoice;
+
+    cout << "----------" << endl;
+    cout << "1. First Fit" << endl;
+    cout << "2. Next Fit" << endl;
+    cout << "3. Best Fit" << endl;
+    cout << "4. Worst Fit" << endl;
+    cout << "----------" << endl;
+    cout << "Enter the corresponding number for what you want to do: ";
+    cin >> userChoice;
+    cout << endl;
+
+    switch (userChoice)
+    {
+    case 1:
+        {
+            return 'F';
+        }
+        break;
+    case 2:
+        {
+            return 'N';
+        }
+        break;
+    case 3:
+        {
+            return 'B';
+        }
+        break;
+    case 4:
+        {
+            return 'W';
+        }
+        break;
+    default:
+        {
+            return 'F';
+        }
+    }
+}
+
+
 controller::~controller()
 {
 }

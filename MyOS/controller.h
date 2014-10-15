@@ -37,6 +37,7 @@ public:
     void freePCB(pcb* pcbToFree);
     pcb* createProcess(string name, char pcbClass, int pcbPri,int mem, int timeR, int timeA, int percent);
     void printReady();
+    char chooseFit();
 
     bool readFile();
     void SJF(); //shortest job first scheduler - full knowledge
