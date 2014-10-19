@@ -5,6 +5,7 @@ pcbQueue::pcbQueue()
     head = NULL;
     tail = NULL;
     queueSize = 0;
+    runningPosition = 0;
 }
 
 void pcbQueue::addPCB(pcb* newItem)
@@ -45,6 +46,9 @@ void pcbQueue::deletePCB(pcb* itemToDelete)
 //performs coalescing on the queue
 void pcbQueue::coalesce()
 {
+
+    cout << "-BEFORE COALESCING-" << endl;
+    printQueue();
     int limit = 0;
 
     if (queueSize % 2 == 0)
@@ -61,11 +65,19 @@ void pcbQueue::coalesce()
         heldItems[i] -> memory = heldItems[i] -> memory + heldItems[i+1] -> memory;
         heldItems.erase(heldItems.begin()+i+1);
     }
+
+    cout << "-AFTER COALESCING-" << endl;
+    printQueue();
+
+    queueSize = heldItems.size();
 }
 
 //performs compaction on the queue
 void pcbQueue::compact()
 {
+    cout << "-BEFORE COMPACTION-" << endl;
+    printQueue();
+
     pcb* tempPCB = new pcb;
     tempPCB -> processName = "empty";
     tempPCB -> memory = 0;
@@ -77,6 +89,11 @@ void pcbQueue::compact()
 
     heldItems.clear();
     addPCB(tempPCB);
+
+    cout << "-AFTER COMPACTION-" << endl;
+    printQueue();
+
+    queueSize = heldItems.size();
 }
 
 bool pcbQueue::firstFit(pcb* newPCB)
@@ -108,6 +125,7 @@ bool pcbQueue::firstFit(pcb* newPCB)
 bool pcbQueue::nextFit(pcb* newPCB)
 {
     int firstPos = -9999;
+
     for (int i = 0; i < heldItems.size(); i++)
     {
         //saves location of first available slot
@@ -137,7 +155,7 @@ bool pcbQueue::nextFit(pcb* newPCB)
     }
 
     //if only one position was found, insert new pcb there
-    if (firstPos > 0)
+    if (firstPos >= 0)
     {
         heldItems[firstPos] -> memory -= newPCB -> memory;
         if (heldItems[firstPos] -> memory == 0)
@@ -214,6 +232,171 @@ bool pcbQueue::worstFit(pcb* newPCB)
     else
     {
         return false;
+    }
+}
+
+void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
+{
+    switch(whichFit)
+    {
+    case 'F':
+        {
+            cout << "FIRST FIT!!" << endl;
+            bool done = false;
+            done = firstFit(nPCB);
+            if (!done)
+            {
+                coalesce();
+                done = firstFit(nPCB);
+            }
+            else
+            {
+                return;
+            }
+            if (!done)
+            {
+                compact();
+                done = firstFit(nPCB);
+            }
+        }
+        break;
+    case 'N':
+        {
+            cout << "NEXT FIT!!" << endl;
+            bool done = false;
+            done = nextFit(nPCB);
+            if (!done)
+            {
+                coalesce();
+                done = nextFit(nPCB);
+            }
+            if (!done)
+            {
+                compact();
+                done = nextFit(nPCB);
+            }
+        }
+        break;
+    case 'B':
+        {
+            cout << "BEST FIT!!" << endl;
+            bool done = false;
+            done = bestFit(nPCB);
+            if (!done)
+            {
+                coalesce();
+                done = bestFit(nPCB);
+            }
+            if (!done)
+            {
+                compact();
+                done = bestFit(nPCB);
+            }
+        }
+        break;
+    case 'W':
+        {
+            cout << "WORST FIT!!" << endl;
+            bool done = false;
+            done = worstFit(nPCB);
+            if (!done)
+            {
+                coalesce();
+                done = worstFit(nPCB);
+            }
+            if (!done)
+            {
+                compact();
+                done = worstFit(nPCB);
+            }
+        }
+        break;
+    default:
+        {
+            cout << "DEFAULT FIRST FIT!!" << endl;
+            bool done = false;
+            done = firstFit(nPCB);
+            if (!done)
+            {
+                coalesce();
+                done = firstFit(nPCB);
+            }
+            if (!done)
+            {
+                compact();
+                done = firstFit(nPCB);
+            }
+        }
+    }
+
+    queueSize = heldItems.size();
+}
+
+void pcbQueue::removePCB()
+{
+    for (int i = 0; i < heldItems.size(); i++)
+    {
+        if (heldItems[i] -> processName != "empty")
+        {
+            heldItems[i] -> processName = "empty";
+        }
+    }
+
+    queueSize = heldItems.size();
+
+    return;
+}
+
+void pcbQueue::swapPCB(pcbQueue otherQueue)
+{
+    //cout << "SWAPPING!!!" << endl;
+
+    /*for (int i = 0; i < queueSize; i++)
+    {
+        if (heldItems[i] -> processName != "empty")
+        {
+            otherQueue.addPCB(heldItems[i]);
+            cout << "SWAPPING " << heldItems[i] -> processName << " into ready" << endl;
+            cout << "READY SIZE IS " << otherQueue.heldItems.size() << endl;
+            otherQueue.queueSize = otherQueue.heldItems.size();
+            heldItems[i] -> processName = "empty";
+            queueSize = heldItems.size();
+            break;
+        }
+    }*/
+
+    int pos = findRunning();
+
+    pcb* tempPCB = heldItems[pos];
+    otherQueue.addPCB(tempPCB);
+    heldItems[pos] -> processName = "empty";
+
+    otherQueue.queueSize = otherQueue.heldItems.size();
+
+    queueSize = heldItems.size();
+
+    return;
+}
+
+int pcbQueue::findRunning()
+{
+    for (int  i = 0; i < heldItems.size(); i++)
+    {
+        if (heldItems[i] -> processName != "empty")
+        {
+            return i;
+        }
+    }
+
+    //cout << "NO PCBS ARE IN RUNNING!" << endl;
+    return -9999;
+}
+
+void pcbQueue::printQueue()
+{
+    for (int i = 0; i < heldItems.size();i++)
+    {
+        cout << heldItems[i] -> processName << " --- " << heldItems[i] -> memory << endl;;
     }
 }
 

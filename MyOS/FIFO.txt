@@ -10,5 +10,5 @@ Joe has completed!
 Billy has completed!
 
 Completion Time: 2361
-Average Turnaround Time: 1407
+Average Turnaround Time: 1408
 

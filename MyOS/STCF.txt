@@ -3,12 +3,12 @@ Kevin has entered the system!
 Bob has entered the system!
 Joe has entered the system!
 Billy has entered the system!
-Barry is completed!
-Joe is completed!
-Billy is completed!
-Bob is completed!
-Kevin is completed!
+Barry has completed!
+Joe has completed!
+Billy has completed!
+Bob has completed!
+Kevin has completed!
 
-Total completion time: 2360
-Average turnaround time: 1262
+Completion Time: 2361
+Average Turnaround Time: 1262
 

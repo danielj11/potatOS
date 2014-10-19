@@ -21,14 +21,14 @@ int main()
     exitTestDriver();
     PCBTestDriver();*/
 
-    controller myController;
-    myController.runSim();
+    //controller myController;
+    //myController.runSim();
 
     //SJFTestDriver();
     //FIFOTestDriver();
     //STCFTestDriver();
     //priorityTestDriver();
-    //roundRobinTestDriver();
+    roundRobinTestDriver();
     //MLFQTestDriver();
     //LSTestDriver();
 

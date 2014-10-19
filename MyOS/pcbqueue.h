@@ -18,8 +18,14 @@ public:
     bool nextFit(pcb* newPCB);
     bool bestFit(pcb* newPCB);
     bool worstFit(pcb* newPCB);
+    void addPCBFit(char whichFit, pcb* nPCB);
+    void removePCB(); //removes pcb from running queue and sets its old position to empty
+    void swapPCB(pcbQueue otherQueue);  //moves pcb from running into ready
+    int findRunning();
+    void printQueue();
     ~pcbQueue();
 
+    int runningPosition;
     int queueSize;
     pcb* head;
     pcb* tail;

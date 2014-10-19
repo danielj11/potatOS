@@ -50,8 +50,9 @@ public:
     void printScheduleMenu();
     void runScheduleFunctions();
     void resetSchedulers();
+    void setRunning();
 
-    pcb* runningPCB;
+    pcbQueue running;
     pcbQueue ready;
     pcbQueue blocked;
     pcbQueue suspendedReady;
