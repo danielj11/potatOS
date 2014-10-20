@@ -8,6 +8,7 @@ Joe has completed!
 Billy has completed!
 Bob has completed!
 Kevin has completed!
+
 Total completion time: 2360
-Average turnaround time: 2011
+Average turnaround time: 1883
 

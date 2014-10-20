@@ -154,153 +154,6 @@ void controller::runPCBFunctions() //runs PCB functions
 {
     switch (userPCBChoice)
     {
-    /*case 1://CreatePCB
-        {
-            string nameOfProcess = "";
-            int userPriority = -130;
-            char userType = 'B';
-
-            cout << "Name the process: ";
-            cin >> nameOfProcess;
-            cout << endl;
-
-            while (userPriority > 128 || userPriority < -127)
-            {
-                cout << "Enter process priority: ";
-                cin >> userPriority;
-                cout << endl;
-            }
-
-            while (userType != 'A' && userType != 'S')
-            {
-                cout << "Enter type of process (A = application, S = system): ";
-                cin >> userType;
-            }
-
-            insertPCB(setupPCB(nameOfProcess, userPriority, userType));
-            break;
-        }
-    case 2://DeletePCB
-        {
-            string pcbToDelete;
-            cout << "Enter the name of the PCB you want to delete: ";
-            cin >> pcbToDelete;
-            cout << endl;
-
-            pcb* searchPCB = findPCB(pcbToDelete);
-            if (searchPCB == NULL)
-            {
-                cout << "Process not found!" << endl;
-            }
-            else
-            {
-                removePCB(searchPCB);
-                cout << "PCB Removed" << endl;
-            }
-            break;
-        }
-    case 3://Block
-        {
-            int position = 0;
-            string pcbToBlock;
-            bool readyFlag = true;
-            bool foundFlag = false;
-
-            cout << "Enter the name of the PCB you want to block: ";
-            cin >> pcbToBlock;
-            cout << endl;
-
-            for (int i = 0; i < ready.queueSize; i++)
-            {
-                if (ready.heldItems[i] -> processName == pcbToBlock)
-                {
-                    position = i;
-                    foundFlag = true;
-                }
-            }
-            for (int i = 0; i < suspendedReady.queueSize; i++)
-            {
-                if (suspendedBlocked.heldItems[i] -> processName == pcbToBlock)
-                {
-                    position = i;
-                    readyFlag = false;
-                    foundFlag = true;
-                }
-            }
-
-            if (foundFlag)
-            {
-                if (readyFlag)
-                {
-                    ready.heldItems[position] -> state1 = "blocked";
-                    blocked.addPCB(ready.heldItems[position]);
-                    ready.deletePCB(ready.heldItems[position]);
-                }
-                else
-                {
-                    suspendedReady.heldItems[position] -> state1 = "blocked";
-                    suspendedBlocked.addPCB(suspendedReady.heldItems[position]);
-                    suspendedReady.deletePCB(suspendedBlocked.heldItems[position]);
-                }
-            }
-            else
-            {
-                cout << "Process not found" << endl;
-            }
-
-            break;
-        }
-    case 4://Unblock
-        {
-            int position = 0;
-            string pcbToUnblock;
-            bool blockFlag = true;
-            bool foundFlag = false;
-
-            cout << "Enter the name of the PCB you want to unblock: ";
-            cin >> pcbToUnblock;
-            cout << endl;
-
-            for (int i = 0; i < blocked.queueSize; i++)
-            {
-                if (blocked.heldItems[i] -> processName == pcbToUnblock)
-                {
-                    position = i;
-                    foundFlag = true;
-                }
-            }
-            for (int i = 0; i < suspendedBlocked.queueSize; i++)
-            {
-                if (suspendedBlocked.heldItems[i] -> processName == pcbToUnblock)
-                {
-                    position = i;
-                    blockFlag = false;
-                    foundFlag = true;
-                }
-            }
-
-            if (foundFlag)
-            {
-                if (blockFlag)
-                {
-                    blocked.heldItems[position] -> state1 = "ready";
-                    ready.addPCB(blocked.heldItems[position]);
-                    blocked.deletePCB(blocked.heldItems[position]);
-                }
-                else
-                {
-                    suspendedBlocked.heldItems[position] -> state1 = "ready";
-                    suspendedReady.addPCB(suspendedBlocked.heldItems[position]);
-                    suspendedBlocked.deletePCB(suspendedBlocked.heldItems[position]);
-                }
-            }
-            else
-            {
-                cout << "Process not found" << endl;
-            }
-
-            break;
-        }*/
     case 1://Suspend
         {
             int position = 0;
@@ -917,6 +770,7 @@ void controller::freePCB(pcb* pcbToFree)//frees memory of pcb
 }
 
 
+//creates a pcb
 pcb* controller::createProcess(string name, char pcbClass, int pcbPriority, int mem, int timeR, int timeA, int percent)
 {
     pcb* tempPCB;
@@ -973,7 +827,7 @@ bool controller::readFile() //reads in file for use in schedulers
     int arrival;
     int newPercent;
 
-    cout << endl;
+    //cout << endl;
     cout << "Enter your filename: ";
     cin >> userFile;
     ifstream inputFile(userFile.c_str());
@@ -1061,16 +915,12 @@ void controller::SJF()
     char fit = chooseFit();
     setRunning();
 
-    //char fit = chooseFit();
-
-    int completionTime = 0; //how long a process takes to complete
     int turnaroundTime = 0; //turnaround time of process
     int shortestTimeRemaining = filepcbs[0] -> timeRemaining; //used to sort ready queue
     int position = 0;
     int numberOfPCBs = filepcbs.size();
     int completedPCBs= 0;
     int counter = 0;
-    //int pcbsCompleted = 0;
     vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
     bool done = false;
 
@@ -1078,7 +928,7 @@ void controller::SJF()
     {
         for (int i = 0; i < filepcbs.size(); i++)
         {
-            //looks for shortest remianing time of all pcbs to put in ready queue
+            //looks for shortest remaining time of all pcbs to put in ready queue
             if (filepcbs[i] -> timeRemaining < shortestTimeRemaining)
             {
                 shortestTimeRemaining = filepcbs[i] -> timeRemaining;
@@ -1159,6 +1009,7 @@ void controller::SJF()
 
     return;
 }
+
 
 //runs processes using first in first out scheduler
 void controller::FIFO()
@@ -1263,7 +1114,6 @@ void controller::FIFO()
 }
 
 
-
 //runs processes using shortest time to completion first scheduler
 void controller::STCF()
 {
@@ -1281,7 +1131,6 @@ void controller::STCF()
 
     int turnaroundTime = 0; //turnaround time of process
     int position = 0; //used to find exact lpcations of pcbs
-    int numberOfPCBs = filepcbs.size();
     int counter = 0; //timer
     bool done = false; //determines when scheduler is finished
     vector <int> storeTurnaround; //holds turnaround time of each process to calculate average
@@ -1559,15 +1408,18 @@ void controller::RR()
             done = true;
         }
 
-        if (filepcbs[0] -> timeOfArrival == counter)
+        if (filepcbs.size() > 0)
         {
-            ready.addPCB(filepcbs[0]);
-            outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
-            filepcbs.erase(filepcbs.begin()+0);
-
-            if (ready.queueSize == numberOfPCBs)
+            if (filepcbs[0] -> timeOfArrival == counter)
             {
-                printReady();
+                ready.addPCB(filepcbs[0]);
+                outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
+                filepcbs.erase(filepcbs.begin()+0);
+
+                if (ready.queueSize == numberOfPCBs)
+                {
+                    printReady();
+                }
             }
         }
 
@@ -1581,7 +1433,7 @@ void controller::RR()
 
             if (ready.heldItems[0] -> timeRemaining == 0) //remove process if finished
             {
-                outFile << ready.heldItems[0] -> processName << " completed" << endl;
+                outFile << ready.heldItems[0] -> processName << " has completed at " << counter << "." << endl;
                 turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
                 storeTurnaround.push_back(turnaroundTime);
                 ready.deletePCB(ready.heldItems[0]);
@@ -1612,6 +1464,8 @@ void controller::RR()
     outFile << "Average turnaround time: " << turnaroundTime << endl << endl;
 
     outFile.close();
+
+    delete tempPCB;
 
     return;
 }
@@ -1978,6 +1832,7 @@ void controller::LS()
 }
 
 
+//user chooseswhich memory management algorithm to use
 char controller::chooseFit()
 {
     int userChoice;
@@ -2023,6 +1878,8 @@ char controller::chooseFit()
     cout << endl;
 }
 
+
+//resets running queue for next scheduler that is used
 void controller::setRunning()
 {
     pcb* tempPCB = new pcb;

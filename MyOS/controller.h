@@ -6,7 +6,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <fstream>
-#include <algorithm>
+//#include <algorithm>
 
 #include "date.h"
 #include "version.h"
@@ -39,6 +39,7 @@ public:
     void printReady();
     char chooseFit();
 
+    //Scheduler Functions
     bool readFile();
     void SJF(); //shortest job first scheduler - full knowledge
     void FIFO(); //First in first out scheduler

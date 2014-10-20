@@ -8,6 +8,7 @@ pcbQueue::pcbQueue()
     runningPosition = 0;
 }
 
+//adds a pcb to the end of a queue
 void pcbQueue::addPCB(pcb* newItem)
 {
     heldItems.push_back(newItem);
@@ -26,6 +27,7 @@ void pcbQueue::addPCB(pcb* newItem)
     }
 }
 
+//deletespcbfrom queue
 void pcbQueue::deletePCB(pcb* itemToDelete)
 {
     for (int i = 0; i < queueSize; i++)
@@ -70,6 +72,8 @@ void pcbQueue::coalesce()
     printQueue();
 
     queueSize = heldItems.size();
+
+    cout << endl;
 }
 
 //performs compaction on the queue
@@ -94,8 +98,11 @@ void pcbQueue::compact()
     printQueue();
 
     queueSize = heldItems.size();
+
+    cout << endl;
 }
 
+//inserts a new PCB using First Fit memory management
 bool pcbQueue::firstFit(pcb* newPCB)
 {
     for (int i = 0; i < heldItems.size(); i++)
@@ -122,6 +129,7 @@ bool pcbQueue::firstFit(pcb* newPCB)
     return false; //no available slot was found
 }
 
+//inserts a new PCB using Next Fit memory management
 bool pcbQueue::nextFit(pcb* newPCB)
 {
     int firstPos = -9999;
@@ -173,6 +181,7 @@ bool pcbQueue::nextFit(pcb* newPCB)
     return false; //no available slot was found
 }
 
+//inserts a new PCB using Best Fit memory management
 bool pcbQueue::bestFit(pcb* newPCB)
 {
     int difference = 9999;
@@ -204,6 +213,7 @@ bool pcbQueue::bestFit(pcb* newPCB)
     }
 }
 
+//inserts a new PCB using Worst Fit memory management
 bool pcbQueue::worstFit(pcb* newPCB)
 {
     int difference = -9999;
@@ -235,13 +245,13 @@ bool pcbQueue::worstFit(pcb* newPCB)
     }
 }
 
+//adds a PCB to running queue using memory management
 void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
 {
     switch(whichFit)
     {
     case 'F':
         {
-            cout << "FIRST FIT!!" << endl;
             bool done = false;
             done = firstFit(nPCB);
             if (!done)
@@ -262,7 +272,6 @@ void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
         break;
     case 'N':
         {
-            cout << "NEXT FIT!!" << endl;
             bool done = false;
             done = nextFit(nPCB);
             if (!done)
@@ -279,7 +288,6 @@ void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
         break;
     case 'B':
         {
-            cout << "BEST FIT!!" << endl;
             bool done = false;
             done = bestFit(nPCB);
             if (!done)
@@ -296,7 +304,6 @@ void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
         break;
     case 'W':
         {
-            cout << "WORST FIT!!" << endl;
             bool done = false;
             done = worstFit(nPCB);
             if (!done)
@@ -313,7 +320,6 @@ void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
         break;
     default:
         {
-            cout << "DEFAULT FIRST FIT!!" << endl;
             bool done = false;
             done = firstFit(nPCB);
             if (!done)
@@ -332,6 +338,7 @@ void pcbQueue::addPCBFit(char whichFit, pcb* nPCB)
     queueSize = heldItems.size();
 }
 
+//removes a PCB from the running queue
 void pcbQueue::removePCB()
 {
     for (int i = 0; i < heldItems.size(); i++)
@@ -347,24 +354,9 @@ void pcbQueue::removePCB()
     return;
 }
 
+//puts running pcb into ready queue and adds new pcb from ready to running
 void pcbQueue::swapPCB(pcbQueue otherQueue)
 {
-    //cout << "SWAPPING!!!" << endl;
-
-    /*for (int i = 0; i < queueSize; i++)
-    {
-        if (heldItems[i] -> processName != "empty")
-        {
-            otherQueue.addPCB(heldItems[i]);
-            cout << "SWAPPING " << heldItems[i] -> processName << " into ready" << endl;
-            cout << "READY SIZE IS " << otherQueue.heldItems.size() << endl;
-            otherQueue.queueSize = otherQueue.heldItems.size();
-            heldItems[i] -> processName = "empty";
-            queueSize = heldItems.size();
-            break;
-        }
-    }*/
-
     int pos = findRunning();
 
     pcb* tempPCB = heldItems[pos];
@@ -378,6 +370,7 @@ void pcbQueue::swapPCB(pcbQueue otherQueue)
     return;
 }
 
+//looks for position of running pcb in a queue and returns it
 int pcbQueue::findRunning()
 {
     for (int  i = 0; i < heldItems.size(); i++)
@@ -388,10 +381,10 @@ int pcbQueue::findRunning()
         }
     }
 
-    //cout << "NO PCBS ARE IN RUNNING!" << endl;
     return -9999;
 }
 
+//prints the contents of a queue
 void pcbQueue::printQueue()
 {
     for (int i = 0; i < heldItems.size();i++)

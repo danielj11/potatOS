@@ -10,8 +10,8 @@ class pcbQueue
 {
 public:
     pcbQueue();
-    void addPCB(pcb*);
-    void deletePCB(pcb*);
+    void addPCB(pcb* newItem);
+    void deletePCB(pcb* itemToDelete);
     void coalesce();
     void compact();
     bool firstFit(pcb* newPCB);
@@ -19,8 +19,8 @@ public:
     bool bestFit(pcb* newPCB);
     bool worstFit(pcb* newPCB);
     void addPCBFit(char whichFit, pcb* nPCB);
-    void removePCB(); //removes pcb from running queue and sets its old position to empty
-    void swapPCB(pcbQueue otherQueue);  //moves pcb from running into ready
+    void removePCB();
+    void swapPCB(pcbQueue otherQueue);
     int findRunning();
     void printQueue();
     ~pcbQueue();
@@ -30,7 +30,6 @@ public:
     pcb* head;
     pcb* tail;
     vector<pcb*>heldItems;
-
 };
 
 
