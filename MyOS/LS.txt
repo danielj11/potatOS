@@ -1,13 +1,38 @@
 Barry has entered the system!
+The lottery has chosen the process Barry to run.
 Kevin has entered the system!
 Bob has entered the system!
 Joe has entered the system!
 Billy has entered the system!
+The lottery has chosen the process Barry to run.
+The lottery has chosen the process Kevin to run.
+The lottery has chosen the process Kevin to run.
+The lottery has chosen the process Joe to run.
+The lottery has chosen the process Bob to run.
+The lottery has chosen the process Kevin to run.
+The lottery has chosen the process Kevin to run.
+The lottery has chosen the process Joe to run.
+The lottery has chosen the process Bob to run.
+The lottery has chosen the process Barry to run.
+The lottery has chosen the process Barry to run.
 Barry has completed!
+The lottery has chosen the process Billy to run.
+The lottery has chosen the process Joe to run.
+The lottery has chosen the process Bob to run.
+The lottery has chosen the process Joe to run.
 Joe has completed!
+The lottery has chosen the process Kevin to run.
+The lottery has chosen the process Billy to run.
+The lottery has chosen the process Bob to run.
+The lottery has chosen the process Bob to run.
 Bob has completed!
+The lottery has chosen the process Billy to run.
+The lottery has chosen the process Kevin to run.
+The lottery has chosen the process Billy to run.
 Billy has completed!
+The lottery has chosen the process Kevin to run.
 Kevin has completed!
+
 Total time to completion: 1180
 
 Average turnaround time: 928

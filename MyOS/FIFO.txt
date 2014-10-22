@@ -1,12 +1,17 @@
 Barry has entered the system!
+Barry is now running!
 Kevin has entered the system!
 Bob has entered the system!
 Joe has entered the system!
 Billy has entered the system!
 Barry has completed!
+Kevin is now running!
 Kevin has completed!
+Bob is now running!
 Bob has completed!
+Joe is now running!
 Joe has completed!
+Billy is now running!
 Billy has completed!
 
 Completion Time: 2361

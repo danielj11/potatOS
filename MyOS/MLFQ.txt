@@ -10,5 +10,5 @@ Bob has completed!
 Kevin has completed!
 
 Total completion time: 2360
-Average turnaround time: 1883
+Average turnaround time: 1987
 

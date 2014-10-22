@@ -1,14 +1,35 @@
 Barry has entered the system!
+Barry is now running!
 Kevin has entered the system!
 Bob has entered the system!
 Joe has entered the system!
 Billy has entered the system!
-Barry has completed at 1669.
-Joe has completed at 1929.
-Billy has completed at 2129.
-Bob has completed at 2209.
-Kevin has completed at 2359.
+Kevin is now running!
+Bob is now running!
+Joe is now running!
+Billy is now running!
+Barry is now running!
+Kevin is now running!
+Bob is now running!
+Joe is now running!
+Billy is now running!
+Barry is now running!
+Kevin is now running!
+Bob is now running!
+Joe is now running!
+Billy is now running!
+Barry is now running!
+Barry has completed!
+Bob is now running!
+Joe is now running!
+Joe has completed!
+Kevin is now running!
+Bob is now running!
+Bob has completed!
+Billy has completed!
+Kevin is now running!
+Kevin has completed!
 
 Total completion time: 2361
-Average turnaround time: 2045
+Average turnaround time: 2009
 

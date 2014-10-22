@@ -955,12 +955,14 @@ void controller::SJF()
             {
                 //cout << "FOUND NOT EMPTY - " << running.heldItems[i] -> processName << endl;
                 runningPos = i;
+                break;
             }
         }
 
         if (runningPos == -1 && ready.heldItems.size() > 0)
         {
             running.addPCBFit(fit, ready.heldItems[0]);
+            outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
             ready.deletePCB(ready.heldItems[0]);
         }
         else if (runningPos > -1) //if a process is in the running queue, decrement its time remaining
@@ -979,6 +981,7 @@ void controller::SJF()
                 if (ready.heldItems.size() > 0)
                 {
                     running.addPCBFit(fit,ready.heldItems[0]);
+                    outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
                     ready.deletePCB(ready.heldItems[0]);
                 }
                 //if there is nothing in the ready queue, you're done
@@ -1065,6 +1068,7 @@ void controller::FIFO()
         if (runningPos == -1 && ready.heldItems.size() > 0)
         {
             running.addPCBFit(fit, ready.heldItems[0]);
+            outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
             ready.deletePCB(ready.heldItems[0]);
         }
         else if (runningPos > -1) //if a process is in the running queue, decrement its time remaining
@@ -1082,6 +1086,7 @@ void controller::FIFO()
                 if (ready.heldItems.size() > 0)
                 {
                     running.addPCBFit(fit,ready.heldItems[0]);
+                    outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
                     ready.deletePCB(ready.heldItems[0]);
                 }
                 //if there is nothing in the ready queue, you're done
@@ -1193,6 +1198,7 @@ void controller::STCF()
         if (runningPos == -1 && ready.heldItems.size() > 0)
         {
             running.addPCBFit(fit, ready.heldItems[0]);
+            outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
             ready.deletePCB(ready.heldItems[0]);
         }
         else if (runningPos > -1) //if a process is in the running queue, decrement its time remaining
@@ -1209,6 +1215,7 @@ void controller::STCF()
                 if (ready.heldItems.size() > 0)
                 {
                     running.addPCBFit(fit,ready.heldItems[0]);
+                    outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
                     ready.deletePCB(ready.heldItems[0]);
                 }
                 else
@@ -1325,6 +1332,7 @@ void controller::FPPS()
         if (runningPos == -1 && ready.heldItems.size() > 0)
         {
             running.addPCBFit(fit, ready.heldItems[0]);
+            outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
             ready.deletePCB(ready.heldItems[0]);
         }
         else if (runningPos > -1) //if a process is in the running queue, decrement its time remaining
@@ -1341,6 +1349,7 @@ void controller::FPPS()
                 if (ready.heldItems.size() > 0)
                 {
                     running.addPCBFit(fit,ready.heldItems[0]);
+                    outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
                     ready.deletePCB(ready.heldItems[0]);
                 }
                 else
@@ -1423,6 +1432,11 @@ void controller::RR()
             }
         }
 
+        if (counter == 0)
+        {
+            outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
+        }
+
         if (ready.queueSize != 0)
         {
             if (quantumRemaining > 0)
@@ -1433,7 +1447,7 @@ void controller::RR()
 
             if (ready.heldItems[0] -> timeRemaining == 0) //remove process if finished
             {
-                outFile << ready.heldItems[0] -> processName << " has completed at " << counter << "." << endl;
+                outFile << ready.heldItems[0] -> processName << " has completed!" << endl;
                 turnaroundTime = counter - ready.heldItems[0] -> timeOfArrival;
                 storeTurnaround.push_back(turnaroundTime);
                 ready.deletePCB(ready.heldItems[0]);
@@ -1445,6 +1459,7 @@ void controller::RR()
                 tempPCB = ready.heldItems[0];
                 ready.deletePCB(tempPCB);
                 ready.addPCB(tempPCB);
+                outFile << ready.heldItems[0] -> processName << " is now running!" << endl;
                 quantumRemaining = timeQuantum;
             }
         }
@@ -1650,7 +1665,7 @@ void controller::MLFQ()
 
                 counter++;
             }
-        }
+        } //end queue size if statement
     }
 
     //calculate and print total completion time and average turnaround time
@@ -1735,6 +1750,7 @@ void controller::LS()
             if (currentTicket >= ticketChoice)
             {
                 position = i;
+                outFile << "The lottery has chosen the process " << ready.heldItems[i] -> processName << " to run."<< endl;
                 break;
             }
         }
@@ -1811,8 +1827,7 @@ void controller::LS()
         {
             cout << "All processes have completed!" << endl;
             cout << "Check file for details!" << endl << endl;
-            //cout << "Total time to completion: " << counter << endl;
-            outFile << "Total time to completion: " << counter << endl;
+            outFile << endl << "Total time to completion: " << counter << endl;
             turnaroundTime = 0;
 
             for (int i = 0; i < storeTurnaround.size(); i++)
@@ -1832,7 +1847,7 @@ void controller::LS()
 }
 
 
-//user chooseswhich memory management algorithm to use
+//user chooses which memory management algorithm to use
 char controller::chooseFit()
 {
     int userChoice;
