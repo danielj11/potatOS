@@ -942,7 +942,7 @@ void controller::SJF()
         position = 0;
         shortestTimeRemaining = filepcbs[0] -> timeRemaining;
     }
-    printReady();
+    //printReady();
     cout << endl;
     while(completedPCBs != numberOfPCBs)
     {
@@ -1552,10 +1552,10 @@ void controller::MLFQ()
             outFile << filepcbs[0] -> processName << " has entered the system!" << endl;
             filepcbs.erase(filepcbs.begin()+0);
 
-            if (ready.queueSize == numberOfPCBs)
+            /*if (ready.queueSize == numberOfPCBs)
             {
                 printReady();
-            }
+            }*/
         }
 
         if (ready.queueSize != 0)
@@ -1596,7 +1596,7 @@ void controller::MLFQ()
 
                         if (ready.queueSize == numberOfPCBs)
                         {
-                            printReady();
+                            //printReady();
                         }
                     }
 

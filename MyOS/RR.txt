@@ -1,35 +1,91 @@
-Barry has entered the system!
-Barry is now running!
-Kevin has entered the system!
-Bob has entered the system!
-Joe has entered the system!
-Billy has entered the system!
-Kevin is now running!
-Bob is now running!
-Joe is now running!
-Billy is now running!
-Barry is now running!
-Kevin is now running!
-Bob is now running!
-Joe is now running!
-Billy is now running!
-Barry is now running!
-Kevin is now running!
-Bob is now running!
-Joe is now running!
-Billy is now running!
-Barry is now running!
-Barry has completed!
-Bob is now running!
-Joe is now running!
-Joe has completed!
-Kevin is now running!
-Bob is now running!
-Bob has completed!
-Billy has completed!
-Kevin is now running!
-Kevin has completed!
+Process1 has entered the system!
+Process1 is now running!
+Process2 has entered the system!
+Process3 has entered the system!
+Process4 has entered the system!
+Process5 has entered the system!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process1 is now running!
+Process1 has completed!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process5 is now running!
+Process2 is now running!
+Process3 is now running!
+Process4 is now running!
+Process4 has completed!
+Process2 is now running!
+Process3 is now running!
+Process5 is now running!
+Process2 is now running!
+Process3 is now running!
+Process5 is now running!
+Process5 has completed!
+Process3 is now running!
+Process3 has completed!
+Process2 is now running!
+Process2 is now running!
+Process2 is now running!
+Process2 is now running!
+Process2 has completed!
 
 Total completion time: 2361
-Average turnaround time: 2009
+Average turnaround time: 2065
 

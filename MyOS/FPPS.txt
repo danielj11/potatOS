@@ -1,18 +1,18 @@
-Barry has entered the system!
-Barry is now running!
-Kevin has entered the system!
-Bob has entered the system!
-Joe has entered the system!
-Billy has entered the system!
-Barry has completed!
-Kevin is now running!
-Kevin has completed!
-Joe is now running!
-Joe has completed!
-Billy is now running!
-Billy has completed!
-Bob is now running!
-Bob has completed!
+Process1 has entered the system!
+Process1 is now running!
+Process2 has entered the system!
+Process3 has entered the system!
+Process4 has entered the system!
+Process5 has entered the system!
+Process1 has completed!
+Process2 is now running!
+Process2 has completed!
+Process4 is now running!
+Process4 has completed!
+Process5 is now running!
+Process5 has completed!
+Process3 is now running!
+Process3 has completed!
 
 Completion Time: 2361
 Average Turnaround Time: 1380
